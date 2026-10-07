@@ -1,0 +1,174 @@
+{
+  "name": "star_fig2_geometry",
+  "source": "STAR Fig. 2 / Fig. 3(a)-(b), p. 396-397; ICRA Fig. 1 (same map); original ui/Environment.createExampleEnvironment() and DetectiveGame.getBasicGame()",
+  "provenance": "original Environment.createExampleEnvironment, arc-l/cyber-detective@55f57f8",
+  "rooms": ["A", "B", "C"],
+  "beams": {
+    "b1": ["b1u", "b1d"],
+    "b2": ["b2r", "b2l"]
+  },
+  "occupancy": ["o1", "o2"],
+  "edges": [
+    ["A", "C"],
+    ["A", "b1d"],
+    ["A", "b1u"],
+    ["A", "b2l"],
+    ["A", "o1"],
+    ["B", "b2r"],
+    ["B", "o2"],
+    ["C", "b1d"],
+    ["C", "o1"],
+    ["b1d", "o1"],
+    ["b1u", "b2l"],
+    ["b1u", "o1"],
+    ["b2l", "o1"],
+    ["b2r", "o2"],
+    ["o1", "o2"]
+  ],
+  "geometry": {
+    "units": "applet world units; origin top-left, x right, y DOWN (java.awt screen coordinates)",
+    "bounding_box": {
+      "rect": [0, 0, 800, 600],
+      "stroke": 20
+    },
+    "walls": {
+      "stroke": 8,
+      "segments": [
+        [210, 0, 210, 75],
+        [210, 130, 210, 320],
+        [210, 375, 210, 475],
+        [210, 525, 210, 600],
+        [295, 0, 295, 75],
+        [295, 130, 295, 185],
+        [295, 270, 295, 345],
+        [295, 400, 295, 500],
+        [295, 545, 295, 600],
+        [530, 0, 530, 75],
+        [530, 130, 530, 185],
+        [530, 270, 530, 345],
+        [530, 400, 530, 600],
+        [610, 0, 610, 185],
+        [610, 270, 610, 470],
+        [610, 525, 610, 600],
+        [0, 185, 85, 185],
+        [140, 185, 210, 185],
+        [295, 185, 530, 185],
+        [610, 185, 680, 185],
+        [730, 185, 800, 185],
+        [295, 270, 380, 270],
+        [430, 270, 680, 270],
+        [730, 270, 800, 270],
+        [0, 400, 210, 400],
+        [295, 455, 380, 455],
+        [430, 455, 530, 455]
+      ]
+    },
+    "beam_sides": {
+      "stroke": 15,
+      "cap": "square",
+      "note": "each beam is drawn as two parallel segments 20 units apart, one per side vertex; createBeamDetector call order b1u, b1d, b2l, b2r",
+      "segments": {
+        "b1u": [215, 285, 290, 285],
+        "b1d": [215, 305, 290, 305],
+        "b2l": [625, 180, 625, 265],
+        "b2r": [645, 180, 645, 265]
+      }
+    },
+    "occupancy_rects": {
+      "o1": [295, 270, 235, 185],
+      "o2": [610, 270, 190, 330]
+    },
+    "room_rects": {
+      "A": [0, 0, 210, 185],
+      "B": [610, 0, 190, 185],
+      "C": [0, 400, 210, 200]
+    },
+    "rect_format": "[x, y, width, height]",
+    "segment_format": "[x1, y1, x2, y2]",
+    "stroke_note": "java.awt.BasicStroke(w) defaults to CAP_SQUARE: every wall/beam stroke extends w/2 past both endpoints. The connectivity derived below depends on this (see docs/notes/map-geometry.md)."
+  },
+  "applet": {
+    "canvas_px": [400, 300],
+    "world_to_canvas_scale": 0.5,
+    "click_to_world": "x = (int)(px * 800f / 400), y = (int)(py * 800f / 400)  (both axes divide by canvasWidth; uniform scale)",
+    "hit_test_order": ["occupancy", "rooms", "beams"],
+    "hit_test_semantics": "Rectangle2D.contains (half-open: x0 <= x < x0+w); first match wins",
+    "beam_hit_rects": {
+      "b1u": [215, 277, 75, 16],
+      "b1d": [215, 297, 75, 16],
+      "b2l": [617, 180, 16, 85],
+      "b2r": [637, 180, 16, 85]
+    },
+    "hit_test_note": "beam rect = segment widened +-8 perpendicular, NOT extended along its length; y in [180,185) inside b2l/b2r rects returns room B (rooms tested first)"
+  },
+  "expected": {
+    "derivation": "raster at 4 cells/unit; obstacles = bounding-box stroke (20), walls (stroke 8, square caps), room rects, occupancy rects, beam side strokes (15, square caps) plus the strip between the two sides of each beam; free space labelled with 4-connectivity; a feature touches a component if a free cell is 4-adjacent to a cell of that feature",
+    "regions": [
+      {
+        "name": "R1",
+        "interior_point": [100, 300],
+        "touches": ["A", "C", "b1d", "o1"],
+        "approx_area": 93060
+      },
+      {
+        "name": "R2",
+        "interior_point": [400, 100],
+        "touches": ["A", "b1u", "b2l", "o1"],
+        "approx_area": 98551
+      },
+      {
+        "name": "R3",
+        "interior_point": [570, 500],
+        "touches": ["o1", "o2"],
+        "approx_area": 23128
+      },
+      {
+        "name": "R4",
+        "interior_point": [720, 230],
+        "touches": ["B", "b2r", "o2"],
+        "approx_area": 10924
+      }
+    ],
+    "edges_from_geometry": [
+      ["A", "C"],
+      ["A", "b1d"],
+      ["A", "b1u"],
+      ["A", "b2l"],
+      ["A", "o1"],
+      ["B", "b2r"],
+      ["B", "o2"],
+      ["C", "b1d"],
+      ["C", "o1"],
+      ["b1d", "o1"],
+      ["b1u", "b2l"],
+      ["b1u", "o1"],
+      ["b2l", "o1"],
+      ["b2r", "o2"],
+      ["o1", "o2"]
+    ],
+    "edges_equal_getBasicGame_without_SV": true,
+    "edges_equal_star_fig3a": true,
+    "regions_equal_star_fig3b": true,
+    "getBasicGame_extra_edges": [
+      ["SV", "A"]
+    ],
+    "variants": {
+      "strip_between_beam_sides_left_free": {
+        "components": 6,
+        "extra_edges": [
+          ["b1d", "b1u"],
+          ["b2l", "b2r"]
+        ]
+      },
+      "butt_caps_on_beams": {
+        "components": 2,
+        "note": "1-unit leaks at both ends of b1 (215 vs wall edge 214, 290 vs 291) and below b2 (265 vs wall edge 266): R1, R2, R4 merge; butt caps on walls alone change nothing"
+      },
+      "zero_width_lines": {
+        "components": 2,
+        "note": "5-unit gaps at the same three beam ends (215 vs 210, 290 vs 295, 265 vs 270)"
+      }
+    }
+  },
+  "verified_by": "Coordinates copied verbatim from Environment.java@55f57f8; regions/edges recomputed by an independent raster flood fill (not shipped; method in docs/notes/map-geometry.md; cyber_detectives.geometry derives the regions exactly); STAR Fig. 3(a) edge list and Fig. 3(b) region adjacency read off the 500-dpi page renders; STAR Fig. 2 / ICRA Fig. 1 overlaid on the rendered geometry after per-axis rescaling"
+}

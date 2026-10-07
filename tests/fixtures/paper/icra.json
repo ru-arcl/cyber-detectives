@@ -1,0 +1,1573 @@
+{
+ "source": "J. Yu, S. M. LaValle, 'Story Validation and Approximate Path Inference with a Sparse Network of Heterogeneous Sensors', ICRA 2011, pp. 4980-4985",
+ "notes": "docs/notes/paper-examples-icra.md",
+ "semantics": {
+  "single_agent": "all ICRA problems are single-agent; every recording is caused by agent x",
+  "room_visits": "strict: every entry into a room of C_p is a story element (STAR \u00a72.1; implied by the ICRA NFAs, whose room transitions read the room symbol). The key 'consistent_if_unreported_room_visits_allowed' gives the alternative reading.",
+  "start_end": "story starts inside p1 and ends inside pn when the history is exhausted (ICRA \u00a7II-A)",
+  "repeats": "consecutive repeated story entries (AA) = leave and re-enter the room (Fig. 5 self-loops)",
+  "occupancy": "simplified history lists o twice: activation then deactivation",
+  "C_p": "the map's rooms are fixed (Fig. 2 caption: C_p = {A..E}); derived stories using a subset keep the other rooms as reportable rooms",
+  "problem3": "'problem3_*' lets p' start/end anywhere (paper's w1, w6); 'problem3_anchored_*' forces p'_1 = p_1 and p'_last = p_n (\u00a7II-A)",
+  "problem4": "unit-cost insertion/deletion/substitution; p' non-empty",
+  "problem2": "interval cases 1..6 as printed (primes = sensor interval); see notes for the exact model"
+ },
+ "problem2_interval_cases": {
+  "1": "t0 < tf < t0' < tf'",
+  "2": "t0 < t0' < tf < tf'",
+  "3": "t0' < t0 < tf < tf'",
+  "4": "t0 < t0' < tf' < tf",
+  "5": "t0' < t0 < tf' < tf",
+  "6": "t0' < tf' < t0 < tf"
+ },
+ "maps": [
+  {
+   "name": "icra_fig1",
+   "source": "ICRA 2011 Fig. 1 (p. 4980). Same workspace topology as STAR Fig. 2; edge list equals STAR Fig. 3(a). Beam-side names/order copied from the README's star_fig2 example (ICRA does not name the sides of this map).",
+   "rooms": [
+    "A",
+    "B",
+    "C"
+   ],
+   "beams": {
+    "b1": [
+     "b1u",
+     "b1d"
+    ],
+    "b2": [
+     "b2r",
+     "b2l"
+    ]
+   },
+   "occupancy": [
+    "o1",
+    "o2"
+   ],
+   "edges": [
+    [
+     "A",
+     "C"
+    ],
+    [
+     "A",
+     "b1d"
+    ],
+    [
+     "A",
+     "b1u"
+    ],
+    [
+     "A",
+     "b2l"
+    ],
+    [
+     "A",
+     "o1"
+    ],
+    [
+     "B",
+     "b2r"
+    ],
+    [
+     "B",
+     "o2"
+    ],
+    [
+     "C",
+     "b1d"
+    ],
+    [
+     "C",
+     "o1"
+    ],
+    [
+     "b1d",
+     "o1"
+    ],
+    [
+     "b1u",
+     "b2l"
+    ],
+    [
+     "b1u",
+     "o1"
+    ],
+    [
+     "b2l",
+     "o1"
+    ],
+    [
+     "b2r",
+     "o2"
+    ],
+    [
+     "o1",
+     "o2"
+    ]
+   ]
+  },
+  {
+   "name": "icra_fig2",
+   "source": "ICRA 2011 Fig. 2 workspace (p. 4982), connectivity derived from the doorways in the figure; identical to Fig. 3 after expanding each unlabeled junction (free component) into a clique. Beam sides b<k>1, b<k>2 as labelled in Fig. 3; listed in index order (there is no original code for this map).",
+   "rooms": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "beams": {
+    "b1": [
+     "b11",
+     "b12"
+    ],
+    "b2": [
+     "b21",
+     "b22"
+    ],
+    "b3": [
+     "b31",
+     "b32"
+    ],
+    "b4": [
+     "b41",
+     "b42"
+    ],
+    "b5": [
+     "b51",
+     "b52"
+    ]
+   },
+   "occupancy": [
+    "o1",
+    "o2",
+    "o3"
+   ],
+   "edges": [
+    [
+     "A",
+     "B"
+    ],
+    [
+     "A",
+     "b11"
+    ],
+    [
+     "A",
+     "b21"
+    ],
+    [
+     "A",
+     "o1"
+    ],
+    [
+     "B",
+     "C"
+    ],
+    [
+     "B",
+     "b12"
+    ],
+    [
+     "B",
+     "b31"
+    ],
+    [
+     "B",
+     "o1"
+    ],
+    [
+     "C",
+     "b12"
+    ],
+    [
+     "C",
+     "b31"
+    ],
+    [
+     "C",
+     "b42"
+    ],
+    [
+     "C",
+     "b51"
+    ],
+    [
+     "C",
+     "o1"
+    ],
+    [
+     "D",
+     "E"
+    ],
+    [
+     "D",
+     "b22"
+    ],
+    [
+     "D",
+     "b32"
+    ],
+    [
+     "D",
+     "b41"
+    ],
+    [
+     "D",
+     "b52"
+    ],
+    [
+     "D",
+     "o1"
+    ],
+    [
+     "D",
+     "o2"
+    ],
+    [
+     "D",
+     "o3"
+    ],
+    [
+     "E",
+     "b52"
+    ],
+    [
+     "E",
+     "o2"
+    ],
+    [
+     "E",
+     "o3"
+    ],
+    [
+     "b11",
+     "b21"
+    ],
+    [
+     "b11",
+     "o1"
+    ],
+    [
+     "b12",
+     "b31"
+    ],
+    [
+     "b12",
+     "o1"
+    ],
+    [
+     "b21",
+     "o1"
+    ],
+    [
+     "b22",
+     "o2"
+    ],
+    [
+     "b31",
+     "o1"
+    ],
+    [
+     "b32",
+     "b41"
+    ],
+    [
+     "b32",
+     "o1"
+    ],
+    [
+     "b41",
+     "o1"
+    ],
+    [
+     "b42",
+     "b51"
+    ],
+    [
+     "b52",
+     "o2"
+    ],
+    [
+     "b52",
+     "o3"
+    ],
+    [
+     "o2",
+     "o3"
+    ]
+   ]
+  }
+ ],
+ "cases": [
+  {
+   "id": "icra_fig1_ABAC",
+   "source": "ICRA Fig. 1 caption, p. 4980 (story A,B,A,C triggering b2, o2, o1)",
+   "map": "icra_fig1",
+   "mode": "single",
+   "story": [
+    "A",
+    "B",
+    "A",
+    "C"
+   ],
+   "history": [
+    [
+     "b2",
+     "A"
+    ],
+    [
+     "o2",
+     "A"
+    ],
+    [
+     "o2",
+     "D"
+    ],
+    [
+     "o1",
+     "A"
+    ],
+    [
+     "o1",
+     "D"
+    ]
+   ],
+   "expected": {
+    "consistent": true,
+    "consistent_if_unreported_room_visits_allowed": true,
+    "witness_walk_regions": [
+     "A",
+     "R2",
+     "R4",
+     "B",
+     "R4",
+     "o2",
+     "R3",
+     "o1",
+     "R1",
+     "A",
+     "R1",
+     "C"
+    ],
+    "witness_walk_regions_if_unreported_visits_allowed": [
+     "A",
+     "R2",
+     "R4",
+     "B",
+     "R4",
+     "o2",
+     "R3",
+     "o1",
+     "R1",
+     "A",
+     "R1",
+     "C"
+    ],
+    "problem3_shortest_superstory_length": 4,
+    "problem3_shortest_superstories": [
+     "ABAC"
+    ],
+    "problem3_anchored_shortest_length": 4,
+    "problem3_anchored_shortest_superstories": [
+     "ABAC"
+    ],
+    "problem4_min_edits": 0,
+    "problem4_optimal_stories": [
+     "ABAC"
+    ],
+    "algorithm2_literal_returns": true,
+    "algorithm2_corrected_shortest_length": 4,
+    "paper_claims": {
+     "consistent": true,
+     "note": "caption shows a feasible path; agrees"
+    }
+   },
+   "verified_by": "independent region-level BFS over (position, story index, history index), not shipped (shipped equivalents: tools/reference/oracle.py, tests/oracles/brute.py) (strict = every room entry is the next story element); Problems 3/4 by Dijkstra over (NFA state, story index) and cross-checked by brute-force enumeration of all room sequences of length <= n+3 accepted by the history's language (complete because the optimal edit distance d satisfies |p'| <= n+d); consistency also cross-checked by simulating the paper's composite automaton (SUBG/NFA construction; cyber_detectives.subgraphs.icra_composite is the shipped equivalent), whose language equals the region model's for all words up to length 6."
+  },
+  {
+   "id": "icra_sec3a_ABDEC_b1b3o2o2b4",
+   "source": "ICRA \u00a7III-A p. 4982 (story ABDEC, history b1 b3 o2 o2 b4); same history in Fig. 6 caption",
+   "map": "icra_fig2",
+   "mode": "single",
+   "story": [
+    "A",
+    "B",
+    "D",
+    "E",
+    "C"
+   ],
+   "history": [
+    [
+     "b1",
+     "A"
+    ],
+    [
+     "b3",
+     "A"
+    ],
+    [
+     "o2",
+     "A"
+    ],
+    [
+     "o2",
+     "D"
+    ],
+    [
+     "b4",
+     "A"
+    ]
+   ],
+   "expected": {
+    "consistent": false,
+    "consistent_if_unreported_room_visits_allowed": true,
+    "witness_walk_regions": null,
+    "witness_walk_regions_if_unreported_visits_allowed": [
+     "A",
+     "R3",
+     "R2",
+     "B",
+     "R2",
+     "R4",
+     "D",
+     "R6",
+     "o2",
+     "R7",
+     "E",
+     "R7",
+     "D",
+     "R4",
+     "R5",
+     "C"
+    ],
+    "problem3_shortest_superstory_length": 6,
+    "problem3_shortest_superstories": [
+     "ABDEDC"
+    ],
+    "problem3_anchored_shortest_length": 6,
+    "problem3_anchored_shortest_superstories": [
+     "ABDEDC"
+    ],
+    "problem4_min_edits": 1,
+    "problem4_optimal_stories": [
+     "ABDDC",
+     "ABDEDC"
+    ],
+    "algorithm2_literal_returns": true,
+    "algorithm2_corrected_shortest_length": 6,
+    "paper_claims": {
+     "consistent": "not stated",
+     "note": "paper only uses it to illustrate G1, G2, Fig. 4-6"
+    },
+    "problem2_by_interval_case": {
+     "1": true,
+     "2": true,
+     "3": false,
+     "4": false,
+     "5": true,
+     "6": true
+    },
+    "paper_case2_procedure_returns": false
+   },
+   "verified_by": "independent region-level BFS over (position, story index, history index), not shipped (shipped equivalents: tools/reference/oracle.py, tests/oracles/brute.py) (strict = every room entry is the next story element); Problems 3/4 by Dijkstra over (NFA state, story index) and cross-checked by brute-force enumeration of all room sequences of length <= n+3 accepted by the history's language (complete because the optimal edit distance d satisfies |p'| <= n+d); consistency also cross-checked by simulating the paper's composite automaton (SUBG/NFA construction; cyber_detectives.subgraphs.icra_composite is the shipped equivalent), whose language equals the region model's for all words up to length 6. Strictly inconsistent: E lies in R7 and every way from R7 back to b4 (b41 in R4) passes D (an unreported second visit) or an unrecorded sensor (b5, o3)."
+  },
+  {
+   "id": "icra_sec5a_ABDEC_b1b2o2o2b4",
+   "source": "ICRA \u00a7V-A p. 4983-4984 (story ABDEC, history b1 b2 o2 o2 b4)",
+   "map": "icra_fig2",
+   "mode": "single",
+   "story": [
+    "A",
+    "B",
+    "D",
+    "E",
+    "C"
+   ],
+   "history": [
+    [
+     "b1",
+     "A"
+    ],
+    [
+     "b2",
+     "A"
+    ],
+    [
+     "o2",
+     "A"
+    ],
+    [
+     "o2",
+     "D"
+    ],
+    [
+     "b4",
+     "A"
+    ]
+   ],
+   "expected": {
+    "consistent": false,
+    "consistent_if_unreported_room_visits_allowed": true,
+    "witness_walk_regions": null,
+    "witness_walk_regions_if_unreported_visits_allowed": [
+     "A",
+     "R1",
+     "B",
+     "R2",
+     "R3",
+     "R6",
+     "o2",
+     "R6",
+     "D",
+     "R7",
+     "E",
+     "R7",
+     "D",
+     "R4",
+     "R5",
+     "C"
+    ],
+    "problem3_shortest_superstory_length": 6,
+    "problem3_shortest_superstories": [
+     "ABDEDC"
+    ],
+    "problem3_anchored_shortest_length": 6,
+    "problem3_anchored_shortest_superstories": [
+     "ABDEDC"
+    ],
+    "problem4_min_edits": 1,
+    "problem4_optimal_stories": [
+     "ABDC",
+     "ABDCC",
+     "ABDDC",
+     "ABDEDC"
+    ],
+    "algorithm2_literal_returns": true,
+    "algorithm2_corrected_shortest_length": 6,
+    "paper_claims": {
+     "consistent": "not stated",
+     "problem3_answer": "not stated (only the form w1 A w2 B w3 D w4 E w5 C w6)"
+    },
+    "problem2_by_interval_case": {
+     "1": true,
+     "2": true,
+     "3": false,
+     "4": true,
+     "5": true,
+     "6": true
+    },
+    "paper_case2_procedure_returns": false
+   },
+   "verified_by": "independent region-level BFS over (position, story index, history index), not shipped (shipped equivalents: tools/reference/oracle.py, tests/oracles/brute.py) (strict = every room entry is the next story element); Problems 3/4 by Dijkstra over (NFA state, story index) and cross-checked by brute-force enumeration of all room sequences of length <= n+3 accepted by the history's language (complete because the optimal edit distance d satisfies |p'| <= n+d); consistency also cross-checked by simulating the paper's composite automaton (SUBG/NFA construction; cyber_detectives.subgraphs.icra_composite is the shipped equivalent), whose language equals the region model's for all words up to length 6. Strictly inconsistent for the same reason as the \u00a7III-A history."
+  },
+  {
+   "id": "icra_derived_problem2_case2_counterexample",
+   "source": "derived (not in paper): tests the ICRA \u00a7III-B case-2 procedure (p. 4983) on the Fig. 2 map",
+   "map": "icra_fig2",
+   "mode": "single",
+   "story": [
+    "A",
+    "B"
+   ],
+   "history": [
+    [
+     "b1",
+     "A"
+    ],
+    [
+     "b3",
+     "A"
+    ]
+   ],
+   "expected": {
+    "consistent": false,
+    "problem2_by_interval_case": {
+     "1": true,
+     "2": true,
+     "3": true,
+     "4": true,
+     "5": true,
+     "6": true
+    },
+    "paper_case2_procedure_returns": false,
+    "explanation": "Case 2 (t0 < t0' < tf < tf'): agent goes A -> R1 -> B before tf, then after tf (story over) B -> R2 -> b1 -> R3 -> A -> R1 -> B -> R2 -> b3. The paper's procedure (run VALIDATEAGENTSTORY on (p_i..p_n) vs the whole s) forces p_n at the END of s and the agent inside p_i at t0', so it returns false."
+   },
+   "verified_by": "independent BFS (not shipped; tests/oracles/brute.py is the shipped equivalent) with the four interval boundaries as explicit events (story constrains room entries only inside [t0,tf], sensors record only inside [t0',tf'], start/end anywhere outside); paper procedure = OR over suffixes of the strict checker"
+  },
+  {
+   "id": "icra_derived_alg2_literal_DAD",
+   "source": "derived (not in paper): Algorithm 2 as printed (p. 4984) on the \u00a7III-A history",
+   "map": "icra_fig2",
+   "mode": "single",
+   "story": [
+    "D",
+    "A",
+    "D"
+   ],
+   "history": [
+    [
+     "b1",
+     "A"
+    ],
+    [
+     "b3",
+     "A"
+    ],
+    [
+     "o2",
+     "A"
+    ],
+    [
+     "o2",
+     "D"
+    ],
+    [
+     "b4",
+     "A"
+    ]
+   ],
+   "expected": {
+    "consistent": false,
+    "problem3_shortest_superstory_length": null,
+    "algorithm2_literal_returns": true,
+    "algorithm2_corrected_shortest_length": null,
+    "explanation": "No super-story exists (D is reachable only after b3; once on the A/B/C side after b4 the agent cannot reach D again). Printed lines 7 and 9 never add L(i-1, .), so L(n+1, m+1) is finite as soon as the last segment (p_n, j') -> F exists."
+   },
+   "verified_by": "independent literal and corrected transcriptions of Algorithm 2 over the paper-style composite NFA (shipped as problems.algorithm2_as_printed / algorithm2_corrected) vs region-model Dijkstra and brute force; corrected version agreed with ground truth on 1500 random instances, literal disagreed on 359"
+  },
+  {
+   "id": "icra_derived_problem4_length_claim_counterexample",
+   "source": "derived (not in paper): tests the \u00a7V-B claim that a closest p' has length <= max{n, n'}",
+   "map": "icra_fig1",
+   "mode": "single",
+   "story": [
+    "C",
+    "C",
+    "A"
+   ],
+   "history": [
+    [
+     "b2",
+     "A"
+    ]
+   ],
+   "expected": {
+    "consistent": false,
+    "shortest_accepted_length_n_prime": 2,
+    "problem4_min_edits": 1,
+    "problem4_optimal_stories": [
+     "CCAB"
+    ],
+    "min_length_of_optimal_story": 4,
+    "max_n_nprime": 3,
+    "explanation": "L(M) = (A|C)*A B+ U B+ A (A|C)*. The only story at distance 1 from CCA is CCAB (length 4 > max{3,2}). The edit-count bound max{n,n'} does hold (1 <= 3)."
+   },
+   "verified_by": "independent lexicographic Dijkstra on (edits, length), not shipped, and brute-force enumeration of all accepted words up to length 6; 40/3000 random instances violate the length claim, 0 violate the edit-count bound"
+  },
+  {
+   "id": "icra_derived_problem4_length_claim_counterexample_all_rooms",
+   "source": "derived (not in paper): tests the \u00a7V-B claim that a closest p' has length <= max{n, n'}, with a story that uses every room of the map, so the result does not depend on the C_p reading",
+   "map": "icra_fig1",
+   "mode": "single",
+   "story": [
+    "A",
+    "C",
+    "B"
+   ],
+   "history": [
+    [
+     "b2",
+     "A"
+    ],
+    [
+     "b1",
+     "A"
+    ],
+    [
+     "b2",
+     "A"
+    ]
+   ],
+   "expected": {
+    "consistent": false,
+    "consistent_if_unreported_room_visits_allowed": false,
+    "shortest_accepted_length_n_prime": 3,
+    "shortest_accepted_stories": [
+     "BAB"
+    ],
+    "problem3_shortest_superstory_length": 4,
+    "problem3_shortest_superstories": [
+     "BACB"
+    ],
+    "problem3_anchored_shortest_length": null,
+    "problem3_anchored_shortest_superstories": [],
+    "problem4_min_edits": 1,
+    "problem4_optimal_stories": [
+     "BACB"
+    ],
+    "min_length_of_optimal_story": 4,
+    "max_n_nprime": 3,
+    "explanation": "C_p = {A, B, C} is both the set of letters of p and the map's rooms, so this counterexample holds under either reading of C_p (unlike CCA, whose only closest story CCAB uses B, which is not a letter of CCA). Every accepted word starts with B: b1 (sides in R1, R2) must be crossed right after the first b2 crossing with no recording in between, which is impossible from R4, so the first b2 crossing goes R4 -> R2 and the agent starts in B, the only room of R4. Witness for BACB: B -> R4 -(b2)-> R2 -> A -> R1 -> C -> R1 -(b1)-> R2 -(b2)-> R4 -> B. The only story at edit distance 1 from ACB is BACB (length 4 > max{3, 3})."
+   },
+   "verified_by": "independent oracle written separately from the fixture's first derivation (not shipped; tests/oracles/brute.py is the shipped equivalent): language of the history enumerated by depth-first enumeration of all walks with up to 10 room entries; strict consistency cross-checked by enumerating all interleavings of story and history; Levenshtein distance to every enumerated word (complete since n + d = 4 <= 10). Found by exhaustive search over Fig. 1 stories of length 3-5 using all three rooms and histories of up to 3 sensor events."
+  },
+  {
+   "id": "icra_derived_alg1_single_room_story",
+   "source": "derived (not in paper): Algorithm 1 edge case n = 1 (p. 4982)",
+   "map": "icra_fig2",
+   "mode": "single",
+   "story": [
+    "A"
+   ],
+   "history": [],
+   "expected": {
+    "consistent": true,
+    "algorithm1_literal_returns": false,
+    "explanation": "Algorithm 1's main loop is 'for i = 2 to n'; with n = 1 it never runs and line 14 returns false."
+   },
+   "verified_by": "region-model BFS (trivially true: agent stays in A); Algorithm 1 behaviour read off the pseudocode"
+  },
+  {
+   "id": "icra_derived_repeat_semantics_a",
+   "source": "derived (not in paper): pins 'every room entry is reported' and repeated entries (Fig. 5 self-loops)",
+   "map": "icra_fig2",
+   "mode": "single",
+   "story": [
+    "A"
+   ],
+   "history": [
+    [
+     "b1",
+     "A"
+    ],
+    [
+     "b1",
+     "A"
+    ]
+   ],
+   "expected": {
+    "consistent": false,
+    "consistent_if_unreported_room_visits_allowed": true,
+    "problem3_shortest_superstory_length": 2,
+    "problem4_min_edits": 1
+   },
+   "verified_by": "region-model BFS: crossing b1 twice from A forces leaving and re-entering A"
+  },
+  {
+   "id": "icra_derived_repeat_semantics_b",
+   "source": "derived (not in paper): pins 'every room entry is reported' and repeated entries (Fig. 5 self-loops)",
+   "map": "icra_fig2",
+   "mode": "single",
+   "story": [
+    "A",
+    "A"
+   ],
+   "history": [
+    [
+     "b1",
+     "A"
+    ],
+    [
+     "b1",
+     "A"
+    ]
+   ],
+   "expected": {
+    "consistent": true,
+    "consistent_if_unreported_room_visits_allowed": true,
+    "problem3_shortest_superstory_length": 2,
+    "problem4_min_edits": 0
+   },
+   "verified_by": "region-model BFS: crossing b1 twice from A forces leaving and re-entering A"
+  },
+  {
+   "id": "icra_derived_piecewise_acceptance_AA",
+   "source": "derived (not in paper): \u00a7IV 'p consistent iff p splits into P_1..P_{m+1} with P_j accepted by M_j'",
+   "map": "icra_fig2",
+   "mode": "single",
+   "story": [
+    "A",
+    "A"
+   ],
+   "history": [
+    [
+     "b1",
+     "A"
+    ]
+   ],
+   "expected": {
+    "consistent": false,
+    "piecewise_split": [
+     [
+      "A"
+     ],
+     [
+      "A"
+     ]
+    ],
+    "each_piece_accepted_by_its_M_j": true,
+    "explanation": "M1 accepts 'A' only ending at b11, M2 accepts 'A' only starting at b11; crossing b1 maps b11 to b12, so the pieces do not chain. The composite automaton M (also in \u00a7IV) is the correct criterion."
+   },
+   "verified_by": "region-model BFS; M1/M2 built from SUBG as in ICRA §IV (shipped as cyber_detectives.subgraphs.icra_nfas)"
+  },
+  {
+   "id": "icra_derived_fig1_swapped_occupancy",
+   "source": "derived (not in paper): Fig. 1 story with o1/o2 order swapped",
+   "map": "icra_fig1",
+   "mode": "single",
+   "story": [
+    "A",
+    "B",
+    "A",
+    "C"
+   ],
+   "history": [
+    [
+     "b2",
+     "A"
+    ],
+    [
+     "o1",
+     "A"
+    ],
+    [
+     "o1",
+     "D"
+    ],
+    [
+     "o2",
+     "A"
+    ],
+    [
+     "o2",
+     "D"
+    ]
+   ],
+   "expected": {
+    "consistent": false,
+    "consistent_if_unreported_room_visits_allowed": false,
+    "witness_walk_regions": null,
+    "witness_walk_regions_if_unreported_visits_allowed": null,
+    "problem3_shortest_superstory_length": null,
+    "problem3_shortest_superstories": [],
+    "problem3_anchored_shortest_length": null,
+    "problem3_anchored_shortest_superstories": [],
+    "problem4_min_edits": 2,
+    "problem4_optimal_stories": [
+     "BAB",
+     "BACB",
+     "BBAB",
+     "BBACB"
+    ],
+    "algorithm2_literal_returns": true,
+    "algorithm2_corrected_shortest_length": null
+   },
+   "verified_by": "independent region-level BFS over (position, story index, history index), not shipped (shipped equivalents: tools/reference/oracle.py, tests/oracles/brute.py) (strict = every room entry is the next story element); Problems 3/4 by Dijkstra over (NFA state, story index) and cross-checked by brute-force enumeration of all room sequences of length <= n+3 accepted by the history's language (complete because the optimal edit distance d satisfies |p'| <= n+d); consistency also cross-checked by simulating the paper's composite automaton (SUBG/NFA construction; cyber_detectives.subgraphs.icra_composite is the shipped equivalent), whose language equals the region model's for all words up to length 6."
+  }
+ ],
+ "figures": {
+  "fig3_free_components": {
+   "source": "ICRA Fig. 2 (R1..R7 labels) and Fig. 3 (unlabeled junction vertices)",
+   "icra_fig2": {
+    "R1": [
+     "A",
+     "B"
+    ],
+    "R2": [
+     "b12",
+     "B",
+     "o1",
+     "b31",
+     "C"
+    ],
+    "R3": [
+     "A",
+     "b11",
+     "o1",
+     "b21"
+    ],
+    "R4": [
+     "o1",
+     "b32",
+     "D",
+     "b41"
+    ],
+    "R5": [
+     "b42",
+     "C",
+     "b51"
+    ],
+    "R6": [
+     "b22",
+     "o2",
+     "D"
+    ],
+    "R7": [
+     "o2",
+     "E",
+     "D",
+     "b52",
+     "o3"
+    ]
+   },
+   "fig3_junction_to_region": {
+    "top": "R3",
+    "left": "R2",
+    "mid": "R4",
+    "low": "R5",
+    "upper-right": "R6",
+    "right": "R7",
+    "direct edge A-B": "R1"
+   }
+  },
+  "icra_fig1_free_components": {
+   "source": "ICRA Fig. 1 (no labels; names from STAR Fig. 2)",
+   "regions": {
+    "R1": [
+     "A",
+     "C",
+     "b1d",
+     "o1"
+    ],
+    "R2": [
+     "A",
+     "b1u",
+     "o1",
+     "b2l"
+    ],
+    "R3": [
+     "o1",
+     "o2"
+    ],
+    "R4": [
+     "b2r",
+     "B",
+     "o2"
+    ]
+   }
+  },
+  "fig4a": {
+   "source": "ICRA Fig. 4(a), p. 4982: G1 for first recording b1, agent starts at A",
+   "vertices": [
+    "A",
+    "B",
+    "C",
+    "b11",
+    "b12"
+   ],
+   "edges": [
+    [
+     "A",
+     "B"
+    ],
+    [
+     "A",
+     "b11"
+    ],
+    [
+     "B",
+     "C"
+    ],
+    [
+     "B",
+     "b12"
+    ],
+    [
+     "C",
+     "b12"
+    ]
+   ],
+   "matches_figure": true
+  },
+  "fig4b": {
+   "source": "ICRA Fig. 4(b), p. 4982: G2 between b1 and b3",
+   "vertices": [
+    "A",
+    "B",
+    "C",
+    "b11",
+    "b12",
+    "b31"
+   ],
+   "edges": [
+    [
+     "A",
+     "B"
+    ],
+    [
+     "A",
+     "b11"
+    ],
+    [
+     "B",
+     "C"
+    ],
+    [
+     "B",
+     "b12"
+    ],
+    [
+     "B",
+     "b31"
+    ],
+    [
+     "C",
+     "b12"
+    ],
+    [
+     "C",
+     "b31"
+    ],
+    [
+     "b12",
+     "b31"
+    ]
+   ],
+   "matches_figure": true
+  },
+  "fig5a_as_printed": {
+   "source": "ICRA Fig. 5(a), p. 4983",
+   "start": "q0",
+   "accepting": [
+    "b11",
+    "b12"
+   ],
+   "transitions": [
+    [
+     "q0",
+     "A",
+     "A"
+    ],
+    [
+     "q0",
+     "B",
+     "B"
+    ],
+    [
+     "q0",
+     "C",
+     "C"
+    ],
+    [
+     "A",
+     "A",
+     "A"
+    ],
+    [
+     "B",
+     "B",
+     "B"
+    ],
+    [
+     "C",
+     "C",
+     "C"
+    ],
+    [
+     "A",
+     "B",
+     "B"
+    ],
+    [
+     "B",
+     "A",
+     "A"
+    ],
+    [
+     "B",
+     "C",
+     "C"
+    ],
+    [
+     "C",
+     "B",
+     "B"
+    ],
+    [
+     "A",
+     "eps",
+     "b11"
+    ],
+    [
+     "B",
+     "eps",
+     "b12"
+    ],
+    [
+     "C",
+     "eps",
+     "b12"
+    ]
+   ],
+   "matches_construction": true
+  },
+  "fig5b_as_printed": {
+   "source": "ICRA Fig. 5(b), p. 4983",
+   "start": [
+    "b11",
+    "b12"
+   ],
+   "accepting": [
+    "b31"
+   ],
+   "transitions": [
+    [
+     "b11",
+     "A",
+     "A"
+    ],
+    [
+     "b12",
+     "eps",
+     "B"
+    ],
+    [
+     "b12",
+     "eps",
+     "C"
+    ],
+    [
+     "A",
+     "A",
+     "A"
+    ],
+    [
+     "B",
+     "B",
+     "B"
+    ],
+    [
+     "C",
+     "C",
+     "C"
+    ],
+    [
+     "A",
+     "B",
+     "B"
+    ],
+    [
+     "B",
+     "A",
+     "A"
+    ],
+    [
+     "B",
+     "C",
+     "C"
+    ],
+    [
+     "C",
+     "B",
+     "B"
+    ],
+    [
+     "B",
+     "eps",
+     "b31"
+    ],
+    [
+     "C",
+     "eps",
+     "b31"
+    ]
+   ],
+   "matches_construction": false,
+   "corrections": {
+    "relabel": [
+     [
+      "b12",
+      "eps->B",
+      "B"
+     ],
+     [
+      "b12",
+      "eps->C",
+      "C"
+     ]
+    ],
+    "add": [
+     [
+      "b12",
+      "eps",
+      "b31"
+     ]
+    ]
+   }
+  },
+  "fig6": {
+   "source": "ICRA Fig. 6, p. 4983 (history b1 b3 o2 o2 b4)",
+   "links": [
+    [
+     "M1.b11",
+     "eps",
+     "M2.b12"
+    ],
+    [
+     "M1.b12",
+     "eps",
+     "M2.b11"
+    ],
+    [
+     "M2.b31",
+     "eps",
+     "M3.b32"
+    ]
+   ],
+   "note": "M2.b31 -> M3 drawn dotted without a target; the target is b32 of M3"
+  },
+  "subgraphs_G_j": {
+   "b1 b3 o2 o2 b4": [
+    {
+     "j": 1,
+     "vertices": [
+      "A",
+      "B",
+      "C",
+      "b11",
+      "b12"
+     ],
+     "edges": [
+      [
+       "A",
+       "B"
+      ],
+      [
+       "A",
+       "b11"
+      ],
+      [
+       "B",
+       "C"
+      ],
+      [
+       "B",
+       "b12"
+      ],
+      [
+       "C",
+       "b12"
+      ]
+     ]
+    },
+    {
+     "j": 2,
+     "vertices": [
+      "A",
+      "B",
+      "C",
+      "b11",
+      "b12",
+      "b31"
+     ],
+     "edges": [
+      [
+       "A",
+       "B"
+      ],
+      [
+       "A",
+       "b11"
+      ],
+      [
+       "B",
+       "C"
+      ],
+      [
+       "B",
+       "b12"
+      ],
+      [
+       "B",
+       "b31"
+      ],
+      [
+       "C",
+       "b12"
+      ],
+      [
+       "C",
+       "b31"
+      ],
+      [
+       "b12",
+       "b31"
+      ]
+     ]
+    },
+    {
+     "j": 3,
+     "vertices": [
+      "D",
+      "E",
+      "b32",
+      "o2"
+     ],
+     "edges": [
+      [
+       "D",
+       "E"
+      ],
+      [
+       "D",
+       "b32"
+      ],
+      [
+       "D",
+       "o2"
+      ],
+      [
+       "E",
+       "o2"
+      ]
+     ]
+    },
+    {
+     "j": 4,
+     "vertices": [
+      "o2"
+     ],
+     "edges": [],
+     "note": "agent inside the occupancy region"
+    },
+    {
+     "j": 5,
+     "vertices": [
+      "D",
+      "E",
+      "b41",
+      "o2"
+     ],
+     "edges": [
+      [
+       "D",
+       "E"
+      ],
+      [
+       "D",
+       "b41"
+      ],
+      [
+       "D",
+       "o2"
+      ],
+      [
+       "E",
+       "o2"
+      ]
+     ]
+    },
+    {
+     "j": 6,
+     "vertices": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "b41",
+      "b42"
+     ],
+     "edges": [
+      [
+       "A",
+       "B"
+      ],
+      [
+       "B",
+       "C"
+      ],
+      [
+       "C",
+       "b42"
+      ],
+      [
+       "D",
+       "E"
+      ],
+      [
+       "D",
+       "b41"
+      ]
+     ]
+    }
+   ],
+   "b1 b2 o2 o2 b4": [
+    {
+     "j": 1,
+     "vertices": [
+      "A",
+      "B",
+      "C",
+      "b11",
+      "b12"
+     ],
+     "edges": [
+      [
+       "A",
+       "B"
+      ],
+      [
+       "A",
+       "b11"
+      ],
+      [
+       "B",
+       "C"
+      ],
+      [
+       "B",
+       "b12"
+      ],
+      [
+       "C",
+       "b12"
+      ]
+     ]
+    },
+    {
+     "j": 2,
+     "vertices": [
+      "A",
+      "B",
+      "C",
+      "b11",
+      "b12",
+      "b21"
+     ],
+     "edges": [
+      [
+       "A",
+       "B"
+      ],
+      [
+       "A",
+       "b11"
+      ],
+      [
+       "A",
+       "b21"
+      ],
+      [
+       "B",
+       "C"
+      ],
+      [
+       "B",
+       "b12"
+      ],
+      [
+       "C",
+       "b12"
+      ],
+      [
+       "b11",
+       "b21"
+      ]
+     ]
+    },
+    {
+     "j": 3,
+     "vertices": [
+      "D",
+      "E",
+      "b22",
+      "o2"
+     ],
+     "edges": [
+      [
+       "D",
+       "E"
+      ],
+      [
+       "D",
+       "b22"
+      ],
+      [
+       "D",
+       "o2"
+      ],
+      [
+       "E",
+       "o2"
+      ],
+      [
+       "b22",
+       "o2"
+      ]
+     ]
+    },
+    {
+     "j": 4,
+     "vertices": [
+      "o2"
+     ],
+     "edges": [],
+     "note": "agent inside the occupancy region"
+    },
+    {
+     "j": 5,
+     "vertices": [
+      "D",
+      "E",
+      "b41",
+      "o2"
+     ],
+     "edges": [
+      [
+       "D",
+       "E"
+      ],
+      [
+       "D",
+       "b41"
+      ],
+      [
+       "D",
+       "o2"
+      ],
+      [
+       "E",
+       "o2"
+      ]
+     ]
+    },
+    {
+     "j": 6,
+     "vertices": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "b41",
+      "b42"
+     ],
+     "edges": [
+      [
+       "A",
+       "B"
+      ],
+      [
+       "B",
+       "C"
+      ],
+      [
+       "C",
+       "b42"
+      ],
+      [
+       "D",
+       "E"
+      ],
+      [
+       "D",
+       "b41"
+      ]
+     ]
+    }
+   ]
+  }
+ }
+}

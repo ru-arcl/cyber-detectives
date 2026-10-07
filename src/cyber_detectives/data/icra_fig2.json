@@ -1,0 +1,240 @@
+{
+ "name": "icra_fig2",
+ "title": "ICRA Fig. 2: five rooms, five beams, three occupancy sensors",
+ "provenance": {
+  "source": "J. Yu, S. M. LaValle, ICRA 2011, Fig. 2 and Fig. 3 (p. 4982)",
+  "regions": "free components R1-R7 as labelled in ICRA Fig. 2, matched to the unlabelled junction vertices of Fig. 3 (docs/notes/paper-examples-icra.md section 2)",
+  "beam_sides": "b<k>1, b<k>2 as labelled in Fig. 3, listed in index order (no original code for this map)",
+  "fixtures": "tests/fixtures/paper/icra.json (icra_fig2)"
+ },
+ "rooms": [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E"
+ ],
+ "beams": {
+  "b1": [
+   "b11",
+   "b12"
+  ],
+  "b2": [
+   "b21",
+   "b22"
+  ],
+  "b3": [
+   "b31",
+   "b32"
+  ],
+  "b4": [
+   "b41",
+   "b42"
+  ],
+  "b5": [
+   "b51",
+   "b52"
+  ]
+ },
+ "occupancy": [
+  "o1",
+  "o2",
+  "o3"
+ ],
+ "regions": {
+  "R1": [
+   "A",
+   "B"
+  ],
+  "R2": [
+   "b12",
+   "B",
+   "o1",
+   "b31",
+   "C"
+  ],
+  "R3": [
+   "A",
+   "b11",
+   "o1",
+   "b21"
+  ],
+  "R4": [
+   "o1",
+   "b32",
+   "D",
+   "b41"
+  ],
+  "R5": [
+   "b42",
+   "C",
+   "b51"
+  ],
+  "R6": [
+   "b22",
+   "o2",
+   "D"
+  ],
+  "R7": [
+   "o2",
+   "E",
+   "D",
+   "b52",
+   "o3"
+  ]
+ },
+ "edges": [
+  [
+   "A",
+   "B"
+  ],
+  [
+   "A",
+   "b11"
+  ],
+  [
+   "A",
+   "b21"
+  ],
+  [
+   "A",
+   "o1"
+  ],
+  [
+   "B",
+   "C"
+  ],
+  [
+   "B",
+   "b12"
+  ],
+  [
+   "B",
+   "b31"
+  ],
+  [
+   "B",
+   "o1"
+  ],
+  [
+   "C",
+   "b12"
+  ],
+  [
+   "C",
+   "b31"
+  ],
+  [
+   "C",
+   "b42"
+  ],
+  [
+   "C",
+   "b51"
+  ],
+  [
+   "C",
+   "o1"
+  ],
+  [
+   "D",
+   "E"
+  ],
+  [
+   "D",
+   "b22"
+  ],
+  [
+   "D",
+   "b32"
+  ],
+  [
+   "D",
+   "b41"
+  ],
+  [
+   "D",
+   "b52"
+  ],
+  [
+   "D",
+   "o1"
+  ],
+  [
+   "D",
+   "o2"
+  ],
+  [
+   "D",
+   "o3"
+  ],
+  [
+   "E",
+   "b52"
+  ],
+  [
+   "E",
+   "o2"
+  ],
+  [
+   "E",
+   "o3"
+  ],
+  [
+   "b11",
+   "b21"
+  ],
+  [
+   "b11",
+   "o1"
+  ],
+  [
+   "b12",
+   "b31"
+  ],
+  [
+   "b12",
+   "o1"
+  ],
+  [
+   "b21",
+   "o1"
+  ],
+  [
+   "b22",
+   "o2"
+  ],
+  [
+   "b31",
+   "o1"
+  ],
+  [
+   "b32",
+   "b41"
+  ],
+  [
+   "b32",
+   "o1"
+  ],
+  [
+   "b41",
+   "o1"
+  ],
+  [
+   "b42",
+   "b51"
+  ],
+  [
+   "b52",
+   "o2"
+  ],
+  [
+   "b52",
+   "o3"
+  ],
+  [
+   "o2",
+   "o3"
+  ]
+ ]
+}

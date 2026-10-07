@@ -1,0 +1,1896 @@
+{
+ "source": "J. Yu, S. M. LaValle, 'Cyber Detectives: Determining When Robots or People Misbehave', WAFR 2010, Algorithmic Foundations of Robotics IX, STAR 68, pp. 391-407, Springer 2010",
+ "notes": "docs/notes/paper-examples-star.md",
+ "semantics": {
+  "start": "agent is inside p_1 at t_0 (Alg. 3 line 1/17; p. 400 'agent x starts in A')",
+  "rooms": "entering any room of C_p is a visit and must be the next story element (STAR \u00a72.1; p. 400 'C in G22 not directly reachable ... passing only vertices from sensors'; p. 401 'C in G3 must pass A to reach B, this subproblem dies')",
+  "c_p": "C_p is not pinned down for stories that omit a map room. The paper defines C_p as the set of distinct elements of p (\u00a72.1) and treats only rooms in the story as obstacles (Fig. 2 caption). Read that way, story (C,B) would make A free space: A would stop being a vertex and R1 and R2 would merge through it. This fixture keeps the map's rooms A, B, C as C_p. Every case was re-checked under both readings (C_p = map rooms; C_p = story rooms with other rooms as free space) by explicit walk enumeration, and no expected 'consistent' value changes.",
+  "repeated_entries": "allowed (leave and re-enter); Fig. 5 self-loops",
+  "end": "agent is inside p_n at t_f (Alg. 3 line 21 requires the copy of p_n in G_{m+1})",
+  "single": "every recording is made by x; x is inside o for the whole activation-deactivation interval",
+  "multi": "occupancy events only change connectivity; x may cross a beam only at a recorded event of that beam; x may be inside o only while o is active",
+  "initial_sensor_state": "all occupancy sensors inactive at t_0 (implicit in the paper)"
+ },
+ "maps": [
+  {
+   "name": "star_fig2",
+   "source": "STAR Fig. 2 (p. 396), V on p. 397, Fig. 3(a) (p. 397); same edge set as original DetectiveGame.getBasicGame() minus its virtual SV-A edge",
+   "rooms": [
+    "A",
+    "B",
+    "C"
+   ],
+   "beams": {
+    "b1": [
+     "b1u",
+     "b1d"
+    ],
+    "b2": [
+     "b2r",
+     "b2l"
+    ]
+   },
+   "occupancy": [
+    "o1",
+    "o2"
+   ],
+   "edges": [
+    [
+     "A",
+     "C"
+    ],
+    [
+     "A",
+     "b1d"
+    ],
+    [
+     "A",
+     "b1u"
+    ],
+    [
+     "A",
+     "b2l"
+    ],
+    [
+     "A",
+     "o1"
+    ],
+    [
+     "B",
+     "b2r"
+    ],
+    [
+     "B",
+     "o2"
+    ],
+    [
+     "C",
+     "b1d"
+    ],
+    [
+     "C",
+     "o1"
+    ],
+    [
+     "b1d",
+     "o1"
+    ],
+    [
+     "b1u",
+     "b2l"
+    ],
+    [
+     "b1u",
+     "o1"
+    ],
+    [
+     "b2l",
+     "o1"
+    ],
+    [
+     "b2r",
+     "o2"
+    ],
+    [
+     "o1",
+     "o2"
+    ]
+   ],
+   "expected": {
+    "free_components_fig2": {
+     "R1": [
+      "A",
+      "C",
+      "b1d",
+      "o1"
+     ],
+     "R2": [
+      "A",
+      "b1u",
+      "b2l",
+      "o1"
+     ],
+     "R3": [
+      "o1",
+      "o2"
+     ],
+     "R4": [
+      "B",
+      "b2r",
+      "o2"
+     ]
+    },
+    "beam_side_component": {
+     "b1u": "R2",
+     "b1d": "R1",
+     "b2l": "R2",
+     "b2r": "R4"
+    },
+    "region_graph_fig3b_edges": [
+     [
+      "A",
+      "R1"
+     ],
+     [
+      "A",
+      "R2"
+     ],
+     [
+      "B",
+      "R4"
+     ],
+     [
+      "C",
+      "R1"
+     ],
+     [
+      "R1",
+      "b1"
+     ],
+     [
+      "R1",
+      "o1"
+     ],
+     [
+      "R2",
+      "b1"
+     ],
+     [
+      "R2",
+      "b2"
+     ],
+     [
+      "R2",
+      "o1"
+     ],
+     [
+      "R3",
+      "o1"
+     ],
+     [
+      "R3",
+      "o2"
+     ],
+     [
+      "R4",
+      "b2"
+     ],
+     [
+      "R4",
+      "o2"
+     ]
+    ],
+    "num_edges": 15,
+    "original_getBasicGame_extra_edges": [
+     [
+      "A",
+      "SV"
+     ]
+    ],
+    "original_getBasicGame_missing_edges": []
+   },
+   "verified_by": "Fig. 3(a) edges read off a 500-dpi render of p. 397 (edges from A: b2l, b1u, o1, b1d, C). Independently, the free components R1..R4 were read off a 600-dpi render of Fig. 2 (doorways traced by hand), and G was recomputed as 'clique on the vertices touching each component' (a short script, not shipped; tools/reference/oracle.py asserts the same clique property for the fixture maps). Result equals the Fig. 3(a) transcription exactly; region adjacency equals the Fig. 3(b) transcription exactly. Compared by hand-transcribing the neighbour lists of original DetectiveGame.getBasicGame() (symmetric): identical except the extra virtual start edge SV-A. Agrees with tests/fixtures/paper/star_fig2_geometry.json (a separate raster derivation from the applet coordinates)."
+  },
+  {
+   "name": "star_fig1",
+   "source": "STAR Fig. 1 (p. 394)",
+   "rooms": [],
+   "beams": {
+    "b": [
+     "bl",
+     "br"
+    ]
+   },
+   "occupancy": [
+    "o"
+   ],
+   "edges": [
+    [
+     "bl",
+     "o"
+    ],
+    [
+     "br",
+     "o"
+    ]
+   ],
+   "expected": {
+    "names_are_ours": "the paper names only the doorways a, b, c; vertex names o, b, bl (left side), br (right side) are ours. The beam has no original counterpart, so the side order is arbitrary.",
+    "free_components_fig1": {
+     "L": [
+      "bl",
+      "o"
+     ],
+     "Rt": [
+      "br",
+      "o"
+     ]
+    },
+    "doorways": {
+     "a": "L",
+     "b": "L",
+     "c": "Rt"
+    },
+    "unlabelled_room": "the small room at the right is not in C_p (no story mentions it), so it is part of free component Rt"
+   },
+   "verified_by": "Read off a 600-dpi render of p. 394: doorways a (left) and b (top, left of the beam) open into the same free component L; c opens into Rt, which also contains the space right of the beam and the unlabelled right room. G recomputed as the clique on the vertices touching each component. The paper draws no connectivity graph for Fig. 1, so nothing to compare against; the figure only illustrates that an occupancy recording cannot tell which doorway was used."
+  }
+ ],
+ "cases": [
+  {
+   "id": "star_eq1_eq2_single",
+   "source": "STAR \u00a72.3 eq. (1)-(2) p. 395-396; Fig. 4 p. 399; Fig. 5 p. 400; DP narrative p. 400-401",
+   "map": "star_fig2",
+   "mode": "single",
+   "story": [
+    "A",
+    "C",
+    "B",
+    "A",
+    "C"
+   ],
+   "history": [
+    [
+     "b1",
+     "A"
+    ],
+    [
+     "o1",
+     "A"
+    ],
+    [
+     "o1",
+     "D"
+    ],
+    [
+     "b2",
+     "A"
+    ],
+    [
+     "o2",
+     "A"
+    ],
+    [
+     "o2",
+     "D"
+    ]
+   ],
+   "expected": {
+    "consistent": false,
+    "paper_claims": {
+     "consistent": false
+    },
+    "subgraphs_fig4": {
+     "G1": {
+      "interval": "[t0,t1)",
+      "start": "A",
+      "goals": [
+       "b1u",
+       "b1d"
+      ],
+      "V": [
+       "A",
+       "C",
+       "b1d",
+       "b1u"
+      ],
+      "E": [
+       [
+        "A",
+        "C"
+       ],
+       [
+        "A",
+        "b1d"
+       ],
+       [
+        "A",
+        "b1u"
+       ],
+       [
+        "C",
+        "b1d"
+       ]
+      ]
+     },
+     "G21": {
+      "interval": "(t1,t2)",
+      "start": "b1d",
+      "goals": [
+       "o1"
+      ],
+      "V": [
+       "A",
+       "C",
+       "b1d",
+       "o1"
+      ],
+      "E": [
+       [
+        "A",
+        "C"
+       ],
+       [
+        "A",
+        "b1d"
+       ],
+       [
+        "A",
+        "o1"
+       ],
+       [
+        "C",
+        "b1d"
+       ],
+       [
+        "C",
+        "o1"
+       ],
+       [
+        "b1d",
+        "o1"
+       ]
+      ]
+     },
+     "G22": {
+      "interval": "(t1,t2)",
+      "start": "b1u",
+      "goals": [
+       "o1"
+      ],
+      "V": [
+       "A",
+       "C",
+       "b1u",
+       "o1"
+      ],
+      "E": [
+       [
+        "A",
+        "C"
+       ],
+       [
+        "A",
+        "b1u"
+       ],
+       [
+        "A",
+        "o1"
+       ],
+       [
+        "C",
+        "o1"
+       ],
+       [
+        "b1u",
+        "o1"
+       ]
+      ]
+     },
+     "G3": {
+      "interval": "(t3,t4)",
+      "start": "o1",
+      "goals": [
+       "b2l"
+      ],
+      "V": [
+       "A",
+       "C",
+       "b2l",
+       "o1"
+      ],
+      "E": [
+       [
+        "A",
+        "C"
+       ],
+       [
+        "A",
+        "b2l"
+       ],
+       [
+        "A",
+        "o1"
+       ],
+       [
+        "C",
+        "o1"
+       ],
+       [
+        "b2l",
+        "o1"
+       ]
+      ]
+     },
+     "G4": {
+      "interval": "(t4,t5)",
+      "start": "b2r",
+      "goals": [
+       "o2"
+      ],
+      "V": [
+       "B",
+       "b2r",
+       "o2"
+      ],
+      "E": [
+       [
+        "B",
+        "b2r"
+       ],
+       [
+        "B",
+        "o2"
+       ],
+       [
+        "b2r",
+        "o2"
+       ]
+      ]
+     },
+     "G5": {
+      "interval": "(t6,tf]",
+      "start": "o2",
+      "goals": [],
+      "V": [
+       "B",
+       "o2"
+      ],
+      "E": [
+       [
+        "B",
+        "o2"
+       ]
+      ]
+     }
+    },
+    "subgraphs_note": "G3 drawn without b2r; Algorithm 2 line 11 (V' <- V' U VG) taken literally would add b2r as an isolated vertex. No subgraph exists for (t2,t3) and (t5,t6): the single agent is inside o1 / o2.",
+    "algorithm2_literal_extra_vertices": {
+     "G3": [
+      "b2r"
+     ]
+    },
+    "composite_fig5": {
+     "self_loops_on_rooms": true,
+     "arcs": {
+      "G1": [
+       [
+        "A",
+        "A"
+       ],
+       [
+        "C",
+        "C"
+       ],
+       [
+        "A",
+        "C"
+       ],
+       [
+        "C",
+        "A"
+       ],
+       [
+        "A",
+        "b1u"
+       ],
+       [
+        "A",
+        "b1d"
+       ],
+       [
+        "C",
+        "b1d"
+       ]
+      ],
+      "G21": [
+       [
+        "A",
+        "A"
+       ],
+       [
+        "C",
+        "C"
+       ],
+       [
+        "A",
+        "C"
+       ],
+       [
+        "C",
+        "A"
+       ],
+       [
+        "b1d",
+        "A"
+       ],
+       [
+        "b1d",
+        "C"
+       ],
+       [
+        "b1d",
+        "o1"
+       ],
+       [
+        "A",
+        "o1"
+       ],
+       [
+        "C",
+        "o1"
+       ]
+      ],
+      "G22": [
+       [
+        "A",
+        "A"
+       ],
+       [
+        "C",
+        "C"
+       ],
+       [
+        "A",
+        "C"
+       ],
+       [
+        "C",
+        "A"
+       ],
+       [
+        "b1u",
+        "A"
+       ],
+       [
+        "b1u",
+        "o1"
+       ],
+       [
+        "A",
+        "o1"
+       ],
+       [
+        "C",
+        "o1"
+       ]
+      ],
+      "G3": [
+       [
+        "A",
+        "A"
+       ],
+       [
+        "C",
+        "C"
+       ],
+       [
+        "A",
+        "C"
+       ],
+       [
+        "C",
+        "A"
+       ],
+       [
+        "o1",
+        "A"
+       ],
+       [
+        "o1",
+        "C"
+       ],
+       [
+        "o1",
+        "b2l"
+       ],
+       [
+        "A",
+        "b2l"
+       ]
+      ]
+     },
+     "crossing_arcs": [
+      [
+       "G1.b1u",
+       "G21.b1d"
+      ],
+      [
+       "G1.b1d",
+       "G22.b1u"
+      ],
+      [
+       "G21.o1",
+       "G3.o1"
+      ],
+      [
+       "G22.o1",
+       "G3.o1"
+      ],
+      [
+       "G3.b2l",
+       "G4.b2r"
+      ]
+     ],
+     "direction_rule": "room-room edges both ways (+ self-loop on each room); sensor start vertex: out-arcs only; goal vertex: in-arcs only"
+    },
+    "subproblems_after_story_index": {
+     "1": [
+      "G1"
+     ],
+     "2": [
+      "G1",
+      "G21",
+      "G3"
+     ],
+     "3": [
+      "G4",
+      "G5"
+     ],
+     "4": [],
+     "5": []
+    },
+    "paper_subproblem_paths": {
+     "after_p2": [
+      "A_G1 C_G1 | BAC",
+      "A_G1 b1u b1d C_G21 | BAC",
+      "A_G1 b1d b1u o1 C_G3 | BAC"
+     ],
+     "after_p3": [
+      "A_G1 b1u b1d C_G21 o1 b2l b2r B_G4 | AC",
+      "A_G1 b1u b1d C_G21 o1 b2l b2r o2 B_G5 | AC"
+     ],
+     "after_p3_typo": "the paper prints b_{21} (digit one) for b_{2l} in both after_p3 paths and in 'reach B from b21 in G3' (p. 401)",
+     "after_p4": []
+    },
+    "copy_of_C_in_G22_reachable": false,
+    "reason_inconsistent": "B lies in R4 (only B, b2r, o2 touch it); after B the remaining recordings are (o2,A),(o2,D), which lead only to R3 (dead end: o1 no longer fires) or back to R4; A is never reachable again."
+   },
+   "verified_by": "Brute force over the region-level model of Fig. 2 (independent time-expanded search, not shipped, state = (location, story index, entry label); the shipped equivalent is tests/oracles/brute.py) gives inconsistent under both end conventions; the copies of the room at which visit i can happen (entry label -> Fig. 4 name) are exactly G1/G21/G3 for p2=C and G4/G5 for p3=B and none for p4=A, matching the paper's narrative. Independently, Algorithms 1-2 recomputed every Fig. 4 subgraph exactly (with G3's unreachable goal b2r dropped), Fig. 5's directed arcs reproduced exactly, and a DP over the chained graph (Alg. 3 with r_i -> r_j fixed) gives the same subproblems and false. Agrees with the paper."
+  },
+  {
+   "id": "star_eq1_eq3_multi",
+   "source": "STAR \u00a72.3 eq. (1),(3) p. 396; \u00a75 p. 402-404; Fig. 6 p. 403; Fig. 7 p. 404",
+   "map": "star_fig2",
+   "mode": "multi",
+   "story": [
+    "A",
+    "C",
+    "B",
+    "A",
+    "C"
+   ],
+   "history": [
+    [
+     "b1",
+     "A"
+    ],
+    [
+     "o1",
+     "A"
+    ],
+    [
+     "o2",
+     "A"
+    ],
+    [
+     "b2",
+     "A"
+    ],
+    [
+     "o2",
+     "D"
+    ],
+    [
+     "o1",
+     "D"
+    ]
+   ],
+   "expected": {
+    "consistent": true,
+    "paper_claims": {
+     "consistent": true
+    },
+    "witness_regions": [
+     "A",
+     "R1",
+     "C",
+     "R1",
+     "o1",
+     "R3",
+     "o2",
+     "R4",
+     "B",
+     "R4",
+     "o2",
+     "R3",
+     "o1",
+     "R1",
+     "A",
+     "R1",
+     "C"
+    ],
+    "witness_note": "agent x crosses no beam (b1, b2 are other agents); with o1 and o2 both active during (t3,t5) it walks A,R1,C,R1,o1,R3,o2,R4,B,R4,o2,R3,o1,R1,A,R1,C (R* = free components). The C visit happens in [t0,t3), the rest in (t3,t5).",
+    "fig6a_G0_4_before_cliquification": {
+     "start": "A",
+     "goals": [
+      "b2r",
+      "b2l"
+     ],
+     "V": [
+      "A",
+      "B",
+      "C",
+      "b2l",
+      "b2r",
+      "o1",
+      "o2"
+     ],
+     "E": [
+      [
+       "A",
+       "C"
+      ],
+      [
+       "A",
+       "b2l"
+      ],
+      [
+       "A",
+       "o1"
+      ],
+      [
+       "B",
+       "b2r"
+      ],
+      [
+       "B",
+       "o2"
+      ],
+      [
+       "C",
+       "o1"
+      ],
+      [
+       "b2l",
+       "o1"
+      ],
+      [
+       "b2r",
+       "o2"
+      ],
+      [
+       "o1",
+       "o2"
+      ]
+     ]
+    },
+    "fig6b_G0_4_after_cliquification": {
+     "V": [
+      "A",
+      "B",
+      "C",
+      "b2l",
+      "b2r"
+     ],
+     "E_drawn_in_paper": [
+      [
+       "A",
+       "B"
+      ],
+      [
+       "A",
+       "C"
+      ],
+      [
+       "A",
+       "b2l"
+      ],
+      [
+       "A",
+       "b2r"
+      ],
+      [
+       "B",
+       "C"
+      ],
+      [
+       "B",
+       "b2l"
+      ],
+      [
+       "B",
+       "b2r"
+      ],
+      [
+       "C",
+       "b2l"
+      ],
+      [
+       "C",
+       "b2r"
+      ]
+     ],
+     "E_algorithm4_literal": [
+      [
+       "A",
+       "B"
+      ],
+      [
+       "A",
+       "C"
+      ],
+      [
+       "A",
+       "b2l"
+      ],
+      [
+       "A",
+       "b2r"
+      ],
+      [
+       "B",
+       "C"
+      ],
+      [
+       "B",
+       "b2l"
+      ],
+      [
+       "B",
+       "b2r"
+      ],
+      [
+       "C",
+       "b2l"
+      ],
+      [
+       "C",
+       "b2r"
+      ],
+      [
+       "b2l",
+       "b2r"
+      ]
+     ],
+     "difference": "Algorithm 4 also adds b2l-b2r (both become neighbours of o2 after o1 is removed): K5. The figure omits it. An edge between two goal vertices is never usable (goals are terminal), so the omission does not change any answer."
+    },
+    "fig6_caption_interval": "caption says G0_4 is 'during (t4,t5)'; by the text (built for (b2,t4) from start A) it covers [t0,t4)",
+    "composite_fig7": {
+     "num_subgraphs": 9,
+     "subgraphs": {
+      "G0_1": {
+       "start": "A",
+       "goals": [
+        "b1u",
+        "b1d"
+       ],
+       "active_occupancy": [],
+       "covers": "[t0,t1)",
+       "V_algorithm4": [
+        "A",
+        "C",
+        "b1d",
+        "b1u"
+       ],
+       "E_algorithm4": [
+        [
+         "A",
+         "C"
+        ],
+        [
+         "A",
+         "b1d"
+        ],
+        [
+         "A",
+         "b1u"
+        ],
+        [
+         "C",
+         "b1d"
+        ]
+       ]
+      },
+      "G0_4": {
+       "start": "A",
+       "goals": [
+        "b2r",
+        "b2l"
+       ],
+       "active_occupancy": [
+        "o1",
+        "o2"
+       ],
+       "covers": "[t0,t4)",
+       "V_algorithm4": [
+        "A",
+        "B",
+        "C",
+        "b2l",
+        "b2r"
+       ],
+       "E_algorithm4": [
+        [
+         "A",
+         "B"
+        ],
+        [
+         "A",
+         "C"
+        ],
+        [
+         "A",
+         "b2l"
+        ],
+        [
+         "A",
+         "b2r"
+        ],
+        [
+         "B",
+         "C"
+        ],
+        [
+         "B",
+         "b2l"
+        ],
+        [
+         "B",
+         "b2r"
+        ],
+        [
+         "C",
+         "b2l"
+        ],
+        [
+         "C",
+         "b2r"
+        ],
+        [
+         "b2l",
+         "b2r"
+        ]
+       ]
+      },
+      "G11_4": {
+       "start": "b1u",
+       "goals": [
+        "b2r",
+        "b2l"
+       ],
+       "active_occupancy": [
+        "o1",
+        "o2"
+       ],
+       "covers": "(t1,t4)",
+       "V_algorithm4": [
+        "A",
+        "B",
+        "C",
+        "b1u",
+        "b2l",
+        "b2r"
+       ],
+       "E_algorithm4": [
+        [
+         "A",
+         "B"
+        ],
+        [
+         "A",
+         "C"
+        ],
+        [
+         "A",
+         "b1u"
+        ],
+        [
+         "A",
+         "b2l"
+        ],
+        [
+         "A",
+         "b2r"
+        ],
+        [
+         "B",
+         "C"
+        ],
+        [
+         "B",
+         "b1u"
+        ],
+        [
+         "B",
+         "b2l"
+        ],
+        [
+         "B",
+         "b2r"
+        ],
+        [
+         "C",
+         "b1u"
+        ],
+        [
+         "C",
+         "b2l"
+        ],
+        [
+         "C",
+         "b2r"
+        ],
+        [
+         "b1u",
+         "b2l"
+        ],
+        [
+         "b1u",
+         "b2r"
+        ],
+        [
+         "b2l",
+         "b2r"
+        ]
+       ]
+      },
+      "G12_4": {
+       "start": "b1d",
+       "goals": [
+        "b2r",
+        "b2l"
+       ],
+       "active_occupancy": [
+        "o1",
+        "o2"
+       ],
+       "covers": "(t1,t4)",
+       "V_algorithm4": [
+        "A",
+        "B",
+        "C",
+        "b1d",
+        "b2l",
+        "b2r"
+       ],
+       "E_algorithm4": [
+        [
+         "A",
+         "B"
+        ],
+        [
+         "A",
+         "C"
+        ],
+        [
+         "A",
+         "b1d"
+        ],
+        [
+         "A",
+         "b2l"
+        ],
+        [
+         "A",
+         "b2r"
+        ],
+        [
+         "B",
+         "C"
+        ],
+        [
+         "B",
+         "b1d"
+        ],
+        [
+         "B",
+         "b2l"
+        ],
+        [
+         "B",
+         "b2r"
+        ],
+        [
+         "C",
+         "b1d"
+        ],
+        [
+         "C",
+         "b2l"
+        ],
+        [
+         "C",
+         "b2r"
+        ],
+        [
+         "b1d",
+         "b2l"
+        ],
+        [
+         "b1d",
+         "b2r"
+        ],
+        [
+         "b2l",
+         "b2r"
+        ]
+       ]
+      },
+      "G0_5": {
+       "start": "A",
+       "goals": [],
+       "active_occupancy": [
+        "o1",
+        "o2"
+       ],
+       "covers": "[t0,t5) (then to tf)",
+       "V_algorithm4": [
+        "A",
+        "B",
+        "C"
+       ],
+       "E_algorithm4": [
+        [
+         "A",
+         "B"
+        ],
+        [
+         "A",
+         "C"
+        ],
+        [
+         "B",
+         "C"
+        ]
+       ]
+      },
+      "G11_5": {
+       "start": "b1u",
+       "goals": [],
+       "active_occupancy": [
+        "o1",
+        "o2"
+       ],
+       "covers": "(t1,t5) (then to tf)",
+       "V_algorithm4": [
+        "A",
+        "B",
+        "C",
+        "b1u"
+       ],
+       "E_algorithm4": [
+        [
+         "A",
+         "B"
+        ],
+        [
+         "A",
+         "C"
+        ],
+        [
+         "A",
+         "b1u"
+        ],
+        [
+         "B",
+         "C"
+        ],
+        [
+         "B",
+         "b1u"
+        ],
+        [
+         "C",
+         "b1u"
+        ]
+       ]
+      },
+      "G12_5": {
+       "start": "b1d",
+       "goals": [],
+       "active_occupancy": [
+        "o1",
+        "o2"
+       ],
+       "covers": "(t1,t5) (then to tf)",
+       "V_algorithm4": [
+        "A",
+        "B",
+        "C",
+        "b1d"
+       ],
+       "E_algorithm4": [
+        [
+         "A",
+         "B"
+        ],
+        [
+         "A",
+         "C"
+        ],
+        [
+         "A",
+         "b1d"
+        ],
+        [
+         "B",
+         "C"
+        ],
+        [
+         "B",
+         "b1d"
+        ],
+        [
+         "C",
+         "b1d"
+        ]
+       ]
+      },
+      "G41_5": {
+       "start": "b2l",
+       "goals": [],
+       "active_occupancy": [
+        "o1",
+        "o2"
+       ],
+       "covers": "(t4,t5) (then to tf)",
+       "V_algorithm4": [
+        "A",
+        "B",
+        "C",
+        "b2l"
+       ],
+       "E_algorithm4": [
+        [
+         "A",
+         "B"
+        ],
+        [
+         "A",
+         "C"
+        ],
+        [
+         "A",
+         "b2l"
+        ],
+        [
+         "B",
+         "C"
+        ],
+        [
+         "B",
+         "b2l"
+        ],
+        [
+         "C",
+         "b2l"
+        ]
+       ]
+      },
+      "G42_5": {
+       "start": "b2r",
+       "goals": [],
+       "active_occupancy": [
+        "o1",
+        "o2"
+       ],
+       "covers": "(t4,t5) (then to tf)",
+       "V_algorithm4": [
+        "A",
+        "B",
+        "C",
+        "b2r"
+       ],
+       "E_algorithm4": [
+        [
+         "A",
+         "B"
+        ],
+        [
+         "A",
+         "C"
+        ],
+        [
+         "A",
+         "b2r"
+        ],
+        [
+         "B",
+         "C"
+        ],
+        [
+         "B",
+         "b2r"
+        ],
+        [
+         "C",
+         "b2r"
+        ]
+       ]
+      }
+     },
+     "entry_subgraphs_from_A": [
+      "G0_1",
+      "G0_4",
+      "G0_5"
+     ],
+     "crossing_arcs": [
+      [
+       "G0_1.b1d",
+       "G11_4.b1u"
+      ],
+      [
+       "G0_1.b1d",
+       "G11_5.b1u"
+      ],
+      [
+       "G0_1.b1u",
+       "G12_4.b1d"
+      ],
+      [
+       "G0_1.b1u",
+       "G12_5.b1d"
+      ],
+      [
+       "G11_4.b2r",
+       "G41_5.b2l"
+      ],
+      [
+       "G11_4.b2l",
+       "G42_5.b2r"
+      ],
+      [
+       "G12_4.b2r",
+       "G41_5.b2l"
+      ],
+      [
+       "G12_4.b2l",
+       "G42_5.b2r"
+      ],
+      [
+       "G0_4.b2r",
+       "G41_5.b2l"
+      ],
+      [
+       "G0_4.b2l",
+       "G42_5.b2r"
+      ]
+     ],
+     "count_formula": "1 (at b1: start A) + 3 (at b2: A, b1u, b1d) + 5 (at o2 deactivation: A, b1u, b1d, b2l, b2r)",
+     "ignored_recordings": "(o1,t2),(o2,t3) only extend the active list; (o1,t6) ignored (no later beam recording, nothing new becomes reachable)"
+    },
+    "dp_over_fig7_consistent": true,
+    "dp_over_fig7_story_fits_in": "G0_5 alone (after clique-ification G0_5 is the triangle A-B-C), i.e. x need not cross any beam",
+    "G0_1_equals_fig4_G1": true
+   },
+   "verified_by": "Brute force over the region-level model (independent search, not shipped; shipped equivalent tests/oracles/brute.py; multi semantics: occupancy events only toggle passability, x may cross a beam only at a recorded event of that beam, at most once per event) finds the witness above; consistent under both end conventions. Fig. 6(a) recomputed exactly by Algorithm 2 with V_C = C_p U {o1,o2} U {A}; Fig. 6(b) by Algorithm 4 (differs from the drawing only by the useless goal-goal edge b2l-b2r). The 9 Fig. 7 subgraphs were computed with Algorithm 4, their starts/goals and the 10 dashed crossing arcs transcribed from a 500-dpi render of p. 404, and a DP over this chained graph returns consistent. Agrees with the paper."
+  },
+  {
+   "id": "star_eq1_eq3_single",
+   "source": "derived: STAR eq. (1) with eq. (3) read as a single-agent history",
+   "map": "star_fig2",
+   "mode": "single",
+   "story": [
+    "A",
+    "C",
+    "B",
+    "A",
+    "C"
+   ],
+   "history": [
+    [
+     "b1",
+     "A"
+    ],
+    [
+     "o1",
+     "A"
+    ],
+    [
+     "o2",
+     "A"
+    ],
+    [
+     "b2",
+     "A"
+    ],
+    [
+     "o2",
+     "D"
+    ],
+    [
+     "o1",
+     "D"
+    ]
+   ],
+   "expected": {
+    "consistent": false,
+    "paper_algorithm": {
+     "with_fixes_no_history_check": true,
+     "without_start_goal_role_split": true,
+     "without_room_self_loops": true,
+     "history_well_formed_for_single": false
+    },
+    "history_valid_for_single": false,
+    "paper_algorithm_without_history_check_accepts": true
+   },
+   "note": "Eq. (3) has overlapping occupancy intervals (o1 active over (t2,t6), o2 over (t3,t5)), which STAR \u00a72.2 rules out for a single agent. Algorithm 3 does not check this: it skips deactivations and moves from start o1 to goal o2 along the G edge o1-o2, so without a well-formedness check it accepts (our fixed implementation does).",
+   "verified_by": "Brute force over the region-level model (independent search, not shipped; shipped equivalent tests/oracles/brute.py; end convention: agent is inside p_n at t_f). Also run through our implementation of Algorithms 1-3 (r_i->r_j fixed, Fig. 5 direction rules) with and without the two refinements; results recorded under expected.paper_algorithm."
+  },
+  {
+   "id": "star_eq1_eq2_multi",
+   "source": "derived: STAR eq. (1) with eq. (2) read as a multi-agent history",
+   "map": "star_fig2",
+   "mode": "multi",
+   "story": [
+    "A",
+    "C",
+    "B",
+    "A",
+    "C"
+   ],
+   "history": [
+    [
+     "b1",
+     "A"
+    ],
+    [
+     "o1",
+     "A"
+    ],
+    [
+     "o1",
+     "D"
+    ],
+    [
+     "b2",
+     "A"
+    ],
+    [
+     "o2",
+     "A"
+    ],
+    [
+     "o2",
+     "D"
+    ]
+   ],
+   "expected": {
+    "consistent": false
+   },
+   "note": "Without the overlap of o1 and o2, R3 can be crossed only during (t2,t3) one way and (t5,t6) the other; B cannot be left towards A afterwards.",
+   "verified_by": "Brute force over the region-level model (independent search, not shipped; shipped equivalent tests/oracles/brute.py; end convention: agent is inside p_n at t_f)."
+  },
+  {
+   "id": "star_single_feasible_original_history",
+   "source": "derived: history of original DetectiveGame.getSingleFeasibleGame() (input only; expectation computed independently)",
+   "map": "star_fig2",
+   "mode": "single",
+   "story": [
+    "A",
+    "C",
+    "B",
+    "A",
+    "C"
+   ],
+   "history": [
+    [
+     "b1",
+     "A"
+    ],
+    [
+     "o1",
+     "A"
+    ],
+    [
+     "o1",
+     "D"
+    ],
+    [
+     "o2",
+     "A"
+    ],
+    [
+     "o2",
+     "D"
+    ],
+    [
+     "b2",
+     "A"
+    ]
+   ],
+   "expected": {
+    "consistent": true,
+    "witness_regions": [
+     "A",
+     "R1",
+     "C",
+     "R1",
+     "R2",
+     "o1",
+     "R3",
+     "o2",
+     "R4",
+     "B",
+     "R4",
+     "R2",
+     "A",
+     "R1",
+     "C"
+    ],
+    "witness_note": "free components R1..R4 + rooms/occupancy regions; a step Ri->Rj is a beam crossing",
+    "paper_algorithm": {
+     "with_fixes_no_history_check": true,
+     "without_start_goal_role_split": true,
+     "without_room_self_loops": true,
+     "history_well_formed_for_single": true
+    }
+   },
+   "note": "A -> R2 -> cross b1 to R1 -> C -> o1 -> R3 -> o2 -> R4 -> B -> cross b2 to R2 -> A -> R1 -> C.",
+   "verified_by": "Brute force over the region-level model (independent search, not shipped; shipped equivalent tests/oracles/brute.py; end convention: agent is inside p_n at t_f). Also run through our implementation of Algorithms 1-3 (r_i->r_j fixed, Fig. 5 direction rules) with and without the two refinements; results recorded under expected.paper_algorithm."
+  },
+  {
+   "id": "star_multi_infeasible_original_history",
+   "source": "derived: history of original DetectiveGame.getMultiInfeasibleGame() (input only; expectation computed independently)",
+   "map": "star_fig2",
+   "mode": "multi",
+   "story": [
+    "A",
+    "C",
+    "B",
+    "A",
+    "C"
+   ],
+   "history": [
+    [
+     "b1",
+     "A"
+    ],
+    [
+     "o2",
+     "A"
+    ],
+    [
+     "o2",
+     "D"
+    ],
+    [
+     "o1",
+     "A"
+    ],
+    [
+     "b2",
+     "A"
+    ],
+    [
+     "o1",
+     "D"
+    ]
+   ],
+   "expected": {
+    "consistent": false
+   },
+   "note": "o2 closes before o1 opens, so R3 is never a through passage; B is reachable only via b2 at t5, after which no way back to A exists.",
+   "verified_by": "Brute force over the region-level model (independent search, not shipped; shipped equivalent tests/oracles/brute.py; end convention: agent is inside p_n at t_f)."
+  },
+  {
+   "id": "star_multi_deactivation_order_infeasible",
+   "source": "derived: probes the multi-agent handling of deactivations (STAR \u00a75 omits the pseudocode)",
+   "map": "star_fig2",
+   "mode": "multi",
+   "story": [
+    "C",
+    "B"
+   ],
+   "history": [
+    [
+     "o2",
+     "A"
+    ],
+    [
+     "o2",
+     "D"
+    ],
+    [
+     "o1",
+     "A"
+    ],
+    [
+     "o1",
+     "D"
+    ]
+   ],
+   "expected": {
+    "consistent": false
+   },
+   "note": "C->B needs o1 then o2 (R1-o1-R3-o2-R4); o2 is active only before o1. A construction that merges the active sets over an interval containing a deactivation (e.g. one subgraph from C with O={o1,o2}) wrongly accepts.",
+   "verified_by": "Brute force over the region-level model (independent search, not shipped; shipped equivalent tests/oracles/brute.py; end convention: agent is inside p_n at t_f)."
+  },
+  {
+   "id": "star_multi_wait_in_unlabelled_component",
+   "source": "derived: probes the multi-agent handling of deactivations (STAR \u00a75 omits the pseudocode)",
+   "map": "star_fig2",
+   "mode": "multi",
+   "story": [
+    "C",
+    "B"
+   ],
+   "history": [
+    [
+     "o1",
+     "A"
+    ],
+    [
+     "o1",
+     "D"
+    ],
+    [
+     "o2",
+     "A"
+    ],
+    [
+     "o2",
+     "D"
+    ]
+   ],
+   "expected": {
+    "consistent": true,
+    "witness_regions": [
+     "C",
+     "R1",
+     "o1",
+     "R3",
+     "o2",
+     "R4",
+     "B"
+    ],
+    "witness_note": "free components R1..R4 + rooms/occupancy regions; a step Ri->Rj is a beam crossing"
+   },
+   "note": "x crosses o1 into R3 while o1 is active, waits in R3 (which contains no vertex of G) across the deactivation of o1, then crosses o2. A construction whose sub-graphs hand over only at vertices of G (rooms/sensor sides) cannot represent 'waiting in R3' and wrongly rejects unless the deactivated sensor vertex is used as the hand-over vertex.",
+   "verified_by": "Brute force over the region-level model (independent search, not shipped; shipped equivalent tests/oracles/brute.py; end convention: agent is inside p_n at t_f)."
+  },
+  {
+   "id": "star_multi_overlap_C_B",
+   "source": "derived",
+   "map": "star_fig2",
+   "mode": "multi",
+   "story": [
+    "C",
+    "B"
+   ],
+   "history": [
+    [
+     "o1",
+     "A"
+    ],
+    [
+     "o2",
+     "A"
+    ],
+    [
+     "o1",
+     "D"
+    ],
+    [
+     "o2",
+     "D"
+    ]
+   ],
+   "expected": {
+    "consistent": true,
+    "witness_regions": [
+     "C",
+     "R1",
+     "o1",
+     "R3",
+     "o2",
+     "R4",
+     "B"
+    ],
+    "witness_note": "free components R1..R4 + rooms/occupancy regions; a step Ri->Rj is a beam crossing"
+   },
+   "note": "control case for the two above",
+   "verified_by": "Brute force over the region-level model (independent search, not shipped; shipped equivalent tests/oracles/brute.py; end convention: agent is inside p_n at t_f)."
+  },
+  {
+   "id": "star_single_same_beam_twice",
+   "source": "derived: start vertex equal to a goal vertex of the same sub-graph",
+   "map": "star_fig2",
+   "mode": "single",
+   "story": [
+    "A",
+    "B",
+    "A"
+   ],
+   "history": [
+    [
+     "b2",
+     "A"
+    ],
+    [
+     "b2",
+     "A"
+    ]
+   ],
+   "expected": {
+    "consistent": true,
+    "witness_regions": [
+     "A",
+     "R2",
+     "R4",
+     "B",
+     "R4",
+     "R2",
+     "A"
+    ],
+    "witness_note": "free components R1..R4 + rooms/occupancy regions; a step Ri->Rj is a beam crossing",
+    "paper_algorithm": {
+     "with_fixes_no_history_check": true,
+     "without_start_goal_role_split": false,
+     "without_room_self_loops": true,
+     "history_well_formed_for_single": true
+    }
+   },
+   "note": "A -> R2 -> cross b2 to R4 -> B -> cross b2 back to R2 -> A. In the second sub-graph the start b2r is also a goal; with Fig. 5's rule (start: out-arcs only, goal: in-arcs only) on a single vertex the walk b2r -> B -> b2r is lost. Start and goal roles must be separate copies.",
+   "verified_by": "Brute force over the region-level model (independent search, not shipped; shipped equivalent tests/oracles/brute.py; end convention: agent is inside p_n at t_f). Also run through our implementation of Algorithms 1-3 (r_i->r_j fixed, Fig. 5 direction rules) with and without the two refinements; results recorded under expected.paper_algorithm."
+  },
+  {
+   "id": "star_single_repeated_room",
+   "source": "derived: repeated consecutive story entries",
+   "map": "star_fig2",
+   "mode": "single",
+   "story": [
+    "A",
+    "A"
+   ],
+   "history": [],
+   "expected": {
+    "consistent": true,
+    "witness_regions": [
+     "A",
+     "R1",
+     "A"
+    ],
+    "witness_note": "free components R1..R4 + rooms/occupancy regions; a step Ri->Rj is a beam crossing",
+    "paper_algorithm": {
+     "with_fixes_no_history_check": true,
+     "without_start_goal_role_split": true,
+     "without_room_self_loops": false,
+     "history_well_formed_for_single": true
+    }
+   },
+   "note": "leave A into R1 (or R2) and re-enter: two visits. Fig. 5 draws a self-loop on every room vertex, which allows this; without self-loops the DP rejects.",
+   "verified_by": "Brute force over the region-level model (independent search, not shipped; shipped equivalent tests/oracles/brute.py; end convention: agent is inside p_n at t_f). Also run through our implementation of Algorithms 1-3 (r_i->r_j fixed, Fig. 5 direction rules) with and without the two refinements; results recorded under expected.paper_algorithm."
+  },
+  {
+   "id": "star_single_story_length_one",
+   "source": "derived: n = 1",
+   "map": "star_fig2",
+   "mode": "single",
+   "story": [
+    "A"
+   ],
+   "history": [],
+   "expected": {
+    "consistent": true,
+    "witness_regions": [
+     "A"
+    ],
+    "witness_note": "free components R1..R4 + rooms/occupancy regions; a step Ri->Rj is a beam crossing",
+    "paper_algorithm": {
+     "with_fixes_no_history_check": true,
+     "without_start_goal_role_split": true,
+     "without_room_self_loops": true,
+     "history_well_formed_for_single": true
+    },
+    "paper_algorithm_as_printed": false
+   },
+   "note": "Algorithm 3 as printed returns false for n = 1 (the i-loop never runs, line 29).",
+   "verified_by": "Brute force over the region-level model (independent search, not shipped; shipped equivalent tests/oracles/brute.py; end convention: agent is inside p_n at t_f). Also run through our implementation of Algorithms 1-3 (r_i->r_j fixed, Fig. 5 direction rules) with and without the two refinements; results recorded under expected.paper_algorithm."
+  },
+  {
+   "id": "star_single_end_must_be_last_room",
+   "source": "derived: end-of-story convention",
+   "map": "star_fig2",
+   "mode": "single",
+   "story": [
+    "A",
+    "A"
+   ],
+   "history": [
+    [
+     "b2",
+     "A"
+    ]
+   ],
+   "expected": {
+    "consistent": false,
+    "consistent_if_story_need_not_end_in_last_room": true,
+    "paper_algorithm": {
+     "with_fixes_no_history_check": false,
+     "without_start_goal_role_split": false,
+     "without_room_self_loops": false,
+     "history_well_formed_for_single": true
+    }
+   },
+   "note": "x visits A twice, but must then cross b2 and ends in R4 at t_f. Algorithm 3 requires the copy of p_n in G_{m+1} (after the last recording), i.e. x is in p_n at t_f; under 'p_n is merely the last room visited' it would be consistent.",
+   "verified_by": "Brute force over the region-level model (independent search, not shipped; shipped equivalent tests/oracles/brute.py; end convention: agent is inside p_n at t_f). Also run through our implementation of Algorithms 1-3 (r_i->r_j fixed, Fig. 5 direction rules) with and without the two refinements; results recorded under expected.paper_algorithm."
+  },
+  {
+   "id": "star_single_role_split_random_find",
+   "source": "derived: found by random cross-check of Algorithm 3 vs brute force",
+   "map": "star_fig2",
+   "mode": "single",
+   "story": [
+    "C",
+    "A",
+    "B",
+    "C"
+   ],
+   "history": [
+    [
+     "b2",
+     "A"
+    ],
+    [
+     "b2",
+     "A"
+    ],
+    [
+     "o1",
+     "A"
+    ],
+    [
+     "o1",
+     "D"
+    ]
+   ],
+   "expected": {
+    "consistent": true,
+    "witness_regions": [
+     "C",
+     "R1",
+     "A",
+     "R2",
+     "R4",
+     "B",
+     "R4",
+     "R2",
+     "o1",
+     "R1",
+     "C"
+    ],
+    "witness_note": "free components R1..R4 + rooms/occupancy regions; a step Ri->Rj is a beam crossing",
+    "paper_algorithm": {
+     "with_fixes_no_history_check": true,
+     "without_start_goal_role_split": false,
+     "without_room_self_loops": true,
+     "history_well_formed_for_single": true
+    }
+   },
+   "note": "C -> R1 -> A -> R2 -> cross b2 -> B -> cross back -> o1 -> exit to R1 -> C; needs the start/goal role split in the b2r sub-graph.",
+   "verified_by": "Brute force over the region-level model (independent search, not shipped; shipped equivalent tests/oracles/brute.py; end convention: agent is inside p_n at t_f). Also run through our implementation of Algorithms 1-3 (r_i->r_j fixed, Fig. 5 direction rules) with and without the two refinements; results recorded under expected.paper_algorithm."
+  }
+ ]
+}

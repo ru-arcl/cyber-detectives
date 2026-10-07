@@ -1,0 +1,188 @@
+{
+ "name": "icra_fig2",
+ "map": "icra_fig2",
+ "title": "ICRA Fig. 2 workspace (five rooms, five beams, three occupancy sensors)",
+ "provenance": "measured from ICRA 2011 Fig. 2",
+ "notes": "Measured on a 600-dpi render of p. 4982 of J. Yu, S. M. LaValle, ICRA 2011: the figure's inner frame (1119 x 699 px) is mapped to x 10..790, y 10..500, every wall line, doorway end and beam rounded to a multiple of 5 units. Walls are 6 units wide; each beam is ONE 6-unit segment across its doorway, and 'sides' says which half (-x/+x/-y/+y, y down) belongs to which side vertex (b<k>1 is the upper or left side, as labelled in ICRA Fig. 3). Region points are the positions of the R1-R7 labels in the figure. Portals were computed by cyber_detectives.geometry.Geometry.compute_portals.",
+ "geometry": {
+  "units": "world units; origin top-left, x right, y DOWN (screen coordinates), same conventions as star_fig2",
+  "bounding_box": {
+   "rect": [0, 0, 800, 510],
+   "stroke": 20
+  },
+  "walls": {
+   "stroke": 6,
+   "cap": "square",
+   "segments": [
+    [155, 10, 155, 50],
+    [155, 90, 155, 335],
+    [155, 380, 155, 500],
+    [220, 10, 220, 50],
+    [220, 85, 220, 125],
+    [220, 180, 220, 235],
+    [220, 270, 220, 325],
+    [220, 385, 220, 420],
+    [220, 465, 220, 500],
+    [390, 10, 390, 40],
+    [390, 85, 390, 125],
+    [390, 180, 390, 225],
+    [390, 265, 390, 325],
+    [390, 385, 390, 425],
+    [390, 470, 390, 500],
+    [450, 10, 450, 125],
+    [450, 180, 450, 295],
+    [450, 365, 450, 450],
+    [580, 10, 580, 45],
+    [580, 90, 580, 230],
+    [580, 270, 580, 360],
+    [580, 410, 580, 450],
+    [640, 10, 640, 70],
+    [640, 125, 640, 230],
+    [640, 280, 640, 380],
+    [640, 435, 640, 500],
+    [10, 125, 60, 125],
+    [105, 125, 155, 125],
+    [220, 125, 390, 125],
+    [450, 125, 505, 125],
+    [540, 125, 580, 125],
+    [220, 180, 280, 180],
+    [320, 180, 505, 180],
+    [540, 180, 580, 180],
+    [640, 180, 690, 180],
+    [745, 180, 790, 180],
+    [10, 295, 60, 295],
+    [105, 295, 155, 295],
+    [220, 325, 285, 325],
+    [325, 325, 390, 325],
+    [640, 325, 695, 325],
+    [745, 325, 790, 325],
+    [220, 385, 390, 385],
+    [450, 450, 580, 450]
+   ]
+  },
+  "rooms": {
+   "A": [0, 0, 155, 125],
+   "B": [0, 295, 155, 215],
+   "C": [220, 385, 170, 125],
+   "D": [450, 180, 130, 270],
+   "E": [640, 0, 160, 180]
+  },
+  "occupancy": {
+   "o1": [220, 180, 170, 145],
+   "o2": [450, 0, 130, 125],
+   "o3": [640, 325, 160, 185]
+  },
+  "beams": {
+   "b1": {
+    "segment": [155, 195, 220, 195],
+    "stroke": 6,
+    "cap": "square",
+    "sides": {
+     "b11": "-y",
+     "b12": "+y"
+    }
+   },
+   "b2": {
+    "segment": [470, 125, 470, 180],
+    "stroke": 6,
+    "cap": "square",
+    "sides": {
+     "b21": "-x",
+     "b22": "+x"
+    }
+   },
+   "b3": {
+    "segment": [245, 325, 245, 385],
+    "stroke": 6,
+    "cap": "square",
+    "sides": {
+     "b31": "-x",
+     "b32": "+x"
+    }
+   },
+   "b4": {
+    "segment": [390, 395, 450, 395],
+    "stroke": 6,
+    "cap": "square",
+    "sides": {
+     "b41": "-y",
+     "b42": "+y"
+    }
+   },
+   "b5": {
+    "segment": [520, 450, 520, 500],
+    "stroke": 6,
+    "cap": "square",
+    "sides": {
+     "b51": "-x",
+     "b52": "+x"
+    }
+   }
+  },
+  "regions": {
+   "R1": {
+    "point": [91, 213]
+   },
+   "R2": {
+    "point": [192, 346]
+   },
+   "R3": {
+    "point": [314, 77]
+   },
+   "R4": {
+    "point": [400, 348]
+   },
+   "R5": {
+    "point": [450, 481]
+   },
+   "R6": {
+    "point": [528, 159]
+   },
+   "R7": {
+    "point": [683, 266]
+   }
+  },
+  "portals": {
+   "R1": {
+    "A": {"region_point": [82.5, 139], "feature_point": [82.5, 111]},
+    "B": {"region_point": [82.5, 281], "feature_point": [82.5, 309]}
+   },
+   "R3": {
+    "A": {"region_point": [169, 70], "feature_point": [141, 70]},
+    "b11": {"region_point": [187.5, 178], "feature_point": [187.5, 195]},
+    "b21": {"region_point": [453, 152.5], "feature_point": [470, 152.5]},
+    "o1": {"region_point": [300, 166], "feature_point": [300, 194]}
+   },
+   "R2": {
+    "B": {"region_point": [169, 357.5], "feature_point": [141, 357.5]},
+    "C": {"region_point": [206, 442.5], "feature_point": [234, 442.5]},
+    "b12": {"region_point": [187.5, 212], "feature_point": [187.5, 195]},
+    "b31": {"region_point": [228, 355], "feature_point": [245, 355]},
+    "o1": {"region_point": [206, 252.5], "feature_point": [234, 252.5]}
+   },
+   "R4": {
+    "D": {"region_point": [436, 330], "feature_point": [464, 330]},
+    "b32": {"region_point": [262, 355], "feature_point": [245, 355]},
+    "b41": {"region_point": [420, 378], "feature_point": [420, 395]},
+    "o1": {"region_point": [305, 339], "feature_point": [305, 311]}
+   },
+   "R5": {
+    "C": {"region_point": [404, 447.5], "feature_point": [376, 447.5]},
+    "b42": {"region_point": [420, 412], "feature_point": [420, 395]},
+    "b51": {"region_point": [503, 476.5], "feature_point": [520, 476.5]}
+   },
+   "R6": {
+    "D": {"region_point": [522.5, 166], "feature_point": [522.5, 194]},
+    "b22": {"region_point": [487, 152.5], "feature_point": [470, 152.5]},
+    "o2": {"region_point": [522.5, 139], "feature_point": [522.5, 111]}
+   },
+   "R7": {
+    "D": {"region_point": [594, 385], "feature_point": [566, 385]},
+    "E": {"region_point": [626, 97.5], "feature_point": [654, 97.5]},
+    "b52": {"region_point": [537, 476.5], "feature_point": [520, 476.5]},
+    "o2": {"region_point": [594, 67.5], "feature_point": [566, 67.5]},
+    "o3": {"region_point": [626, 407.5], "feature_point": [654, 407.5]}
+   }
+  }
+ }
+}

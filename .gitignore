@@ -1,0 +1,19 @@
+# reference toolchain cache (JDK, log4j, original checkout, compiled classes)
+tools/reference/.cache/
+__pycache__/
+*.pyc
+.pytest_cache/
+node_modules/
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.DS_Store
+.idea/
+.vscode/

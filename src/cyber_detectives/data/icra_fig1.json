@@ -1,0 +1,114 @@
+{
+ "name": "icra_fig1",
+ "title": "ICRA Fig. 1: the STAR Fig. 2 workspace (same topology)",
+ "provenance": {
+  "source": "J. Yu, S. M. LaValle, ICRA 2011, Fig. 1 (p. 4980)",
+  "regions": "same free components as STAR Fig. 2 (ICRA draws no labels; names R1-R4 from STAR); compared doorway by doorway (docs/notes/paper-examples-icra.md section 2)",
+  "beam_sides": "ICRA does not name the beam sides; names and order copied from star_fig2",
+  "fixtures": "tests/fixtures/paper/icra.json (icra_fig1)"
+ },
+ "rooms": [
+  "A",
+  "B",
+  "C"
+ ],
+ "beams": {
+  "b1": [
+   "b1u",
+   "b1d"
+  ],
+  "b2": [
+   "b2r",
+   "b2l"
+  ]
+ },
+ "occupancy": [
+  "o1",
+  "o2"
+ ],
+ "regions": {
+  "R1": [
+   "A",
+   "C",
+   "b1d",
+   "o1"
+  ],
+  "R2": [
+   "A",
+   "b1u",
+   "o1",
+   "b2l"
+  ],
+  "R3": [
+   "o1",
+   "o2"
+  ],
+  "R4": [
+   "b2r",
+   "B",
+   "o2"
+  ]
+ },
+ "edges": [
+  [
+   "A",
+   "C"
+  ],
+  [
+   "A",
+   "b1d"
+  ],
+  [
+   "A",
+   "b1u"
+  ],
+  [
+   "A",
+   "b2l"
+  ],
+  [
+   "A",
+   "o1"
+  ],
+  [
+   "B",
+   "b2r"
+  ],
+  [
+   "B",
+   "o2"
+  ],
+  [
+   "C",
+   "b1d"
+  ],
+  [
+   "C",
+   "o1"
+  ],
+  [
+   "b1d",
+   "o1"
+  ],
+  [
+   "b1u",
+   "b2l"
+  ],
+  [
+   "b1u",
+   "o1"
+  ],
+  [
+   "b2l",
+   "o1"
+  ],
+  [
+   "b2r",
+   "o2"
+  ],
+  [
+   "o1",
+   "o2"
+  ]
+ ]
+}

@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cyber-detectives"
+dynamic = ["version"]
+description = "Story validation against a sparse network of beam detectors and occupancy sensors (Yu & LaValle, WAFR 2010 / ICRA 2011)"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+authors = [
+    {name = "Jingjin Yu"},
+    {name = "Steven M. LaValle"},
+]
+keywords = ["robotics", "sensor networks", "story validation", "beam detectors",
+            "occupancy sensors", "combinatorial filters", "finite automata"]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/ru-arcl/cyber-detectives"
+Demo = "https://ru-arcl.github.io/cyber-detectives/"
+Source = "https://github.com/ru-arcl/cyber-detectives"
+
+[project.optional-dependencies]
+viewer = ["matplotlib"]
+
+[project.scripts]
+cyber-detectives = "cyber_detectives.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.dynamic]
+version = {attr = "cyber_detectives.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+cyber_detectives = ["data/*.json", "data/geometry/*.json"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

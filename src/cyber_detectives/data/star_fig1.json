@@ -1,0 +1,40 @@
+{
+ "name": "star_fig1",
+ "title": "STAR Fig. 1: one occupancy sensor with three doorways and one beam",
+ "provenance": {
+  "source": "J. Yu, S. M. LaValle, WAFR 2010 (STAR 68), Fig. 1 (p. 394)",
+  "regions": "free components L (doorways a and b) and Rt (doorway c, the space right of the beam and the unlabelled room, which is not in C_p); read off a 600-dpi render (docs/notes/paper-examples-star.md section 2)",
+  "names": "the paper names only the doorways a, b, c; the vertex names o, b, bl, br are ours and the beam side order is arbitrary (no original counterpart)",
+  "fixtures": "tests/fixtures/paper/star.json (star_fig1)"
+ },
+ "rooms": [],
+ "beams": {
+  "b": [
+   "bl",
+   "br"
+  ]
+ },
+ "occupancy": [
+  "o"
+ ],
+ "regions": {
+  "L": [
+   "bl",
+   "o"
+  ],
+  "Rt": [
+   "br",
+   "o"
+  ]
+ },
+ "edges": [
+  [
+   "bl",
+   "o"
+  ],
+  [
+   "br",
+   "o"
+  ]
+ ]
+}

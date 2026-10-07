@@ -1,0 +1,9 @@
+# Source distribution contents beyond the package itself: the full test suite (with its
+# fixtures, oracles and the tools it imports), the browser demo and docs it checks, and
+# the project metadata files.
+include CITATION.cff package.json README.md LICENSE
+graft tests
+graft tools
+graft docs
+prune tools/reference/.cache
+global-exclude __pycache__ *.py[cod]

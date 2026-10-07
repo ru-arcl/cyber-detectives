@@ -1,0 +1,72 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite the WAFR 2010 paper below; for Problems 2-4
+  (mismatched time intervals, partial stories, stories with errors), please also cite the
+  ICRA 2011 paper.
+type: software
+title: "Cyber Detectives: story validation with a sparse network of heterogeneous sensors"
+version: 1.0.0
+license: BSD-3-Clause
+authors:
+  - given-names: Jingjin
+    family-names: Yu
+  - given-names: Steven M.
+    family-names: LaValle
+repository-code: "https://github.com/ru-arcl/cyber-detectives"
+url: "https://ru-arcl.github.io/cyber-detectives/"
+keywords:
+  - robotics
+  - sensor networks
+  - story validation
+  - beam detectors
+  - occupancy sensors
+  - combinatorial filters
+preferred-citation:
+  type: conference-paper
+  title: "Cyber Detectives: Determining When Robots or People Misbehave"
+  authors:
+    - given-names: Jingjin
+      family-names: Yu
+    - given-names: Steven M.
+      family-names: LaValle
+  collection-title: "Algorithmic Foundations of Robotics IX"
+  collection-type: proceedings
+  conference:
+    name: "Workshop on the Algorithmic Foundations of Robotics (WAFR 2010)"
+  editors:
+    - family-names: Hsu
+      given-names: David
+    - family-names: Isler
+      given-names: Volkan
+    - family-names: Latombe
+      given-names: Jean-Claude
+    - family-names: Lin
+      given-names: Ming C.
+  notes: "Springer Tracts in Advanced Robotics (STAR), volume 68"
+  volume: 68
+  start: 391
+  end: 407
+  publisher:
+    name: Springer-Verlag
+    city: Berlin Heidelberg
+  year: 2010
+references:
+  - type: conference-paper
+    title: "Story Validation and Approximate Path Inference with a Sparse Network of Heterogeneous Sensors"
+    authors:
+      - given-names: Jingjin
+        family-names: Yu
+      - given-names: Steven M.
+        family-names: LaValle
+    collection-title: "2011 IEEE International Conference on Robotics and Automation"
+    collection-type: proceedings
+    conference:
+      name: "2011 IEEE International Conference on Robotics and Automation (ICRA)"
+      city: Shanghai
+      country: CN
+      date-start: 2011-05-09
+      date-end: 2011-05-13
+    start: 4980
+    end: 4985
+    year: 2011
+    month: 5

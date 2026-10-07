@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Check an agent's story against the recordings of beam detectors and occupancy sensors, in the browser.">
+<title>Cyber Detectives</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<script>
+  // apply a saved theme before the first paint (localStorage may be unavailable)
+  try {
+    var t = window.localStorage.getItem("cd-theme");
+    if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+  } catch (e) { /* no storage: follow the system */ }
+</script>
+</head>
+<body>
+<a class="skip" href="#app">Skip to the demo</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <h1>Cyber Detectives</h1>
+      <p class="tagline">Detecting when robots or people misbehave, from a sparse network of simple sensors.</p>
+      <p class="paper-links">
+        <a href="#cite">Yu &amp; LaValle, WAFR 2010</a><span aria-hidden="true"> · </span><a href="#cite">Yu &amp; LaValle, ICRA 2011</a><span aria-hidden="true"> · </span><a href="#how">How it works</a>
+      </p>
+    </div>
+    <button type="button" id="theme-toggle" class="btn btn-ghost theme-toggle" aria-label="Switch to dark theme">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+      <span class="theme-label">Dark</span>
+    </button>
+  </div>
+</header>
+
+<main id="app" class="wrap layout">
+  <section class="panel map-panel" aria-labelledby="map-title">
+    <div class="panel-head">
+      <h2 id="map-title">Map</h2>
+      <div class="toggles">
+        <label class="switch"><input type="checkbox" id="show-possible" checked> <span>Where x could be</span></label>
+        <label class="switch"><input type="checkbox" id="show-regions"> <span>Region labels</span></label>
+      </div>
+    </div>
+    <div class="map-frame">
+      <svg id="map" role="group" aria-label="Map: rooms, beam detectors and occupancy sensors" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+    <p class="hint" id="map-hint">Click a room to add it to the story. Click a beam or an occupancy sensor to add a recording; an occupancy sensor alternates on and off.</p>
+    <div class="legend" aria-hidden="true">
+      <span><i class="sw sw-room"></i>room</span>
+      <span><i class="sw sw-occ"></i>occupancy sensor</span>
+      <span><i class="sw sw-beam"></i>beam detector</span>
+      <span><i class="sw sw-possible"></i>x could be here</span>
+    </div>
+
+    <div class="tokens" aria-live="off">
+      <div class="token-row"><span class="token-head">Story</span><ol id="story-chips" class="chips"></ol></div>
+      <div class="token-row"><span class="token-head">History</span><ol id="history-chips" class="chips"></ol></div>
+    </div>
+
+    <div class="player" id="player">
+      <div class="player-buttons">
+        <button type="button" class="btn btn-icon" id="step-back" aria-label="Step back" title="Step back">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM19 5v14L9 12z"/></svg>
+        </button>
+        <button type="button" class="btn btn-icon btn-primary" id="play" aria-label="Play" title="Play" data-state="paused">
+          <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15L19.5 12z"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 5h4v14h-4zM13.5 5h4v14h-4z"/></svg>
+        </button>
+        <button type="button" class="btn btn-icon" id="step-fwd" aria-label="Step forward" title="Step forward">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM5 5v14l10-7z"/></svg>
+        </button>
+      </div>
+      <input type="range" id="scrub" min="0" max="1000" step="1" value="0" aria-label="Playback position">
+      <label class="speed"><span class="visually-hidden">Speed</span>
+        <select id="speed" aria-label="Playback speed">
+          <option value="0.5">0.5×</option>
+          <option value="1" selected>1×</option>
+          <option value="2">2×</option>
+          <option value="4">4×</option>
+          <option value="8">8×</option>
+        </select>
+      </label>
+    </div>
+    <p class="step-caption" id="step-caption" aria-live="polite"></p>
+  </section>
+
+  <section class="panel controls-panel" aria-labelledby="controls-title">
+    <div class="panel-head"><h2 id="controls-title">Question</h2></div>
+    <form id="controls" class="controls" autocomplete="off">
+      <div class="field field-wide">
+        <label for="preset">Example</label>
+        <select id="preset"></select>
+        <p class="caption" id="preset-caption"></p>
+      </div>
+      <div class="field field-wide">
+        <label for="map-select">Map</label>
+        <select id="map-select"></select>
+      </div>
+      <div class="field field-wide">
+        <label for="problem">Problem</label>
+        <select id="problem">
+          <option value="1">1 · Validate a story</option>
+          <option value="2">2 · Mismatched time intervals</option>
+          <option value="3">3 · Partial story</option>
+          <option value="4">4 · Story with errors</option>
+        </select>
+      </div>
+      <div class="field" id="case-field" hidden>
+        <label for="case">Interval case</label>
+        <select id="case"></select>
+      </div>
+      <div class="field" id="anchored-field" hidden>
+        <label for="anchored">Super-story</label>
+        <select id="anchored">
+          <option value="1" title="the answer starts with the story's first room and ends with its last">Anchored ends</option>
+          <option value="0" title="visits may be added before the first and after the last room">Free ends</option>
+        </select>
+      </div>
+      <fieldset class="field segmented">
+        <legend>Agents</legend>
+        <label><input type="radio" name="agents" value="single" checked> <span>Single</span></label>
+        <label><input type="radio" name="agents" value="multi"> <span>Multiple</span></label>
+      </fieldset>
+      <div class="field field-check">
+        <label class="check"><input type="checkbox" id="unreported"> <span>Room visits may go unreported</span></label>
+      </div>
+      <div class="field field-wide">
+        <label for="story">Story <span class="muted">(rooms x says it visited, in order)</span></label>
+        <input type="text" id="story" spellcheck="false" autocapitalize="characters" placeholder="e.g. ACBAC">
+      </div>
+      <div class="field field-wide">
+        <label for="history">History <span class="muted">(sensor recordings, in order)</span></label>
+        <input type="text" id="history" spellcheck="false" autocapitalize="none" placeholder="e.g. b1 o1 o1 o2 o2 b2">
+      </div>
+      <div class="actions field-wide">
+        <button type="button" class="btn" id="undo">Undo</button>
+        <button type="button" class="btn" id="clear">Clear</button>
+        <button type="submit" class="btn btn-primary btn-run" id="run">Run</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel result-panel" aria-labelledby="result-title">
+    <div class="panel-head"><h2 id="result-title">Answer</h2><span class="stale-note" id="stale-note" hidden>inputs changed, press Run</span></div>
+    <div id="result" class="result" aria-live="polite"></div>
+    <div id="original" class="original" hidden></div>
+  </section>
+</main>
+
+<section id="how" class="wrap prose">
+  <h2>How it works</h2>
+  <p>An agent x tells us a story: the rooms it visited, in order. A sparse network of sensors kept its own record: beam detectors report that someone crossed them, and occupancy sensors report when a region becomes occupied and when it empties again. We combine the map, the story and the recordings into one automaton whose states are a position of x and how much of the story x has told, so checking a story takes time proportional to its length times the number of recordings times the size of the map. When the story fits we return a witness walk, which the demo animates; when it does not, we say which recording or which room breaks it. Problems 2 to 4 relax the question: the story and the sensors may cover different time intervals, the story may leave visits out (we find the shortest consistent story that contains it), or it may contain errors (we find the fewest edits that make it consistent).</p>
+  <p class="muted">Everything runs in your browser: the engine is a JavaScript port of our Python package, checked against it on thousands of recorded cases, and "What the original 2010 applet says" re-runs the original Java code, ported line by line with its bugs.</p>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p id="cite" class="cite">
+      J. Yu and S. M. LaValle. Cyber Detectives: Determining When Robots or People Misbehave. In <i>Algorithmic Foundations of Robotics IX</i> (WAFR 2010), Springer STAR vol. 68, pp. 391–407, 2010.<br>
+      J. Yu and S. M. LaValle. Story Validation and Approximate Path Inference with a Sparse Network of Heterogeneous Sensors. In <i>Proc. IEEE International Conference on Robotics and Automation</i> (ICRA 2011), pp. 4980–4985, 2011.
+    </p>
+    <p class="muted">Source code, tests and notes: <a href="https://github.com/ru-arcl/cyber-detectives">github.com/ru-arcl/cyber-detectives</a> · BSD-3-Clause</p>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/original.js"></script>
+<script src="js/draw.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+{
+ "name": "icra_fig1",
+ "map": "icra_fig1",
+ "title": "ICRA Fig. 1 workspace (= STAR Fig. 2), drawn with the original applet geometry",
+ "provenance": "same workspace as STAR Fig. 2 (docs/notes/map-geometry.md); geometry copied from star_fig2.json, i.e. original Environment.createExampleEnvironment, arc-l/cyber-detective@55f57f8",
+ "notes": "Each beam is drawn as two parallel strokes, one per side (as in the applet); the strip between them belongs to the beam. Square stroke caps (java.awt.BasicStroke default) are needed for the walls and beams to seal the regions. Region points are the interior points of tests/fixtures/paper/star_fig2_geometry.json. Portals were computed by cyber_detectives.geometry.Geometry.compute_portals.",
+ "geometry": {
+  "units": "applet world units; origin top-left, x right, y DOWN (java.awt screen coordinates)",
+  "bounding_box": {
+   "rect": [0, 0, 800, 600],
+   "stroke": 20
+  },
+  "walls": {
+   "stroke": 8,
+   "cap": "square",
+   "segments": [
+    [210, 0, 210, 75],
+    [210, 130, 210, 320],
+    [210, 375, 210, 475],
+    [210, 525, 210, 600],
+    [295, 0, 295, 75],
+    [295, 130, 295, 185],
+    [295, 270, 295, 345],
+    [295, 400, 295, 500],
+    [295, 545, 295, 600],
+    [530, 0, 530, 75],
+    [530, 130, 530, 185],
+    [530, 270, 530, 345],
+    [530, 400, 530, 600],
+    [610, 0, 610, 185],
+    [610, 270, 610, 470],
+    [610, 525, 610, 600],
+    [0, 185, 85, 185],
+    [140, 185, 210, 185],
+    [295, 185, 530, 185],
+    [610, 185, 680, 185],
+    [730, 185, 800, 185],
+    [295, 270, 380, 270],
+    [430, 270, 680, 270],
+    [730, 270, 800, 270],
+    [0, 400, 210, 400],
+    [295, 455, 380, 455],
+    [430, 455, 530, 455]
+   ]
+  },
+  "rooms": {
+   "A": [0, 0, 210, 185],
+   "B": [610, 0, 190, 185],
+   "C": [0, 400, 210, 200]
+  },
+  "occupancy": {
+   "o1": [295, 270, 235, 185],
+   "o2": [610, 270, 190, 330]
+  },
+  "beams": {
+   "b1": {
+    "stroke": 15,
+    "cap": "square",
+    "sides": {
+     "b1u": [215, 285, 290, 285],
+     "b1d": [215, 305, 290, 305]
+    }
+   },
+   "b2": {
+    "stroke": 15,
+    "cap": "square",
+    "sides": {
+     "b2l": [625, 180, 625, 265],
+     "b2r": [645, 180, 645, 265]
+    }
+   }
+  },
+  "regions": {
+   "R1": {
+    "point": [100, 300]
+   },
+   "R2": {
+    "point": [400, 100]
+   },
+   "R3": {
+    "point": [570, 500]
+   },
+   "R4": {
+    "point": [720, 230]
+   }
+  },
+  "portals": {
+   "R1": {
+    "A": {"region_point": [112.5, 199], "feature_point": [112.5, 171]},
+    "C": {"region_point": [224, 500], "feature_point": [196, 500]},
+    "b1d": {"region_point": [252.5, 326.5], "feature_point": [252.5, 295]},
+    "o1": {"region_point": [281, 372.5], "feature_point": [309, 372.5]}
+   },
+   "R2": {
+    "A": {"region_point": [224, 102.5], "feature_point": [196, 102.5]},
+    "b1u": {"region_point": [252.5, 263.5], "feature_point": [252.5, 295]},
+    "b2l": {"region_point": [603.5, 227.5], "feature_point": [635, 227.5]},
+    "o1": {"region_point": [405, 256], "feature_point": [405, 284]}
+   },
+   "R3": {
+    "o1": {"region_point": [544, 372.5], "feature_point": [516, 372.5]},
+    "o2": {"region_point": [596, 497.5], "feature_point": [624, 497.5]}
+   },
+   "R4": {
+    "B": {"region_point": [705, 199], "feature_point": [705, 171]},
+    "b2r": {"region_point": [666.5, 227.5], "feature_point": [635, 227.5]},
+    "o2": {"region_point": [705, 256], "feature_point": [705, 284]}
+   }
+  }
+ }
+}

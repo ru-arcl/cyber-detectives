@@ -1,0 +1,126 @@
+{
+ "name": "star_fig2",
+ "title": "STAR Fig. 2 (= ICRA Fig. 1): three rooms, two beams, two occupancy sensors",
+ "provenance": {
+  "source": "J. Yu, S. M. LaValle, WAFR 2010 (STAR 68), Fig. 2 (p. 396), V on p. 397, Fig. 3(a)-(b) (p. 397)",
+  "regions": "free components R1-R4 as labelled in STAR Fig. 2; read off a 600-dpi render and checked against Fig. 3(b) (docs/notes/paper-examples-star.md section 2)",
+  "edges": "edge list and order of the original DetectiveGame.getBasicGame() (arc-l/cyber-detective@55f57f8) minus its virtual SV-A edge; as a set equal to STAR Fig. 3(a)",
+  "beam_sides": "side order and vertex_order (creation order, b2l before b2r) as in DetectiveGame.getBasicGame(); both matter only for compat=\"original\"",
+  "fixtures": "tests/fixtures/paper/star.json (star_fig2), tests/fixtures/golden/*.json (star_fig2)"
+ },
+ "rooms": [
+  "A",
+  "B",
+  "C"
+ ],
+ "beams": {
+  "b1": [
+   "b1u",
+   "b1d"
+  ],
+  "b2": [
+   "b2r",
+   "b2l"
+  ]
+ },
+ "occupancy": [
+  "o1",
+  "o2"
+ ],
+ "vertex_order": [
+  "A",
+  "B",
+  "C",
+  "b1u",
+  "b1d",
+  "b2l",
+  "b2r",
+  "o1",
+  "o2"
+ ],
+ "regions": {
+  "R1": [
+   "A",
+   "C",
+   "b1d",
+   "o1"
+  ],
+  "R2": [
+   "A",
+   "b1u",
+   "b2l",
+   "o1"
+  ],
+  "R3": [
+   "o1",
+   "o2"
+  ],
+  "R4": [
+   "B",
+   "b2r",
+   "o2"
+  ]
+ },
+ "edges": [
+  [
+   "A",
+   "b1u"
+  ],
+  [
+   "A",
+   "b1d"
+  ],
+  [
+   "A",
+   "b2l"
+  ],
+  [
+   "A",
+   "o1"
+  ],
+  [
+   "A",
+   "C"
+  ],
+  [
+   "B",
+   "b2r"
+  ],
+  [
+   "C",
+   "b1d"
+  ],
+  [
+   "C",
+   "o1"
+  ],
+  [
+   "b1u",
+   "b2l"
+  ],
+  [
+   "b2l",
+   "o1"
+  ],
+  [
+   "b1u",
+   "o1"
+  ],
+  [
+   "b1d",
+   "o1"
+  ],
+  [
+   "o1",
+   "o2"
+  ],
+  [
+   "b2r",
+   "o2"
+  ],
+  [
+   "B",
+   "o2"
+  ]
+ ]
+}
