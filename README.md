@@ -1,4 +1,4 @@
-# Cyber Detectives
+# Cyber Detectives: Determining When Robots or People Misbehave
 
 Check an agent's story against what a sparse network of beam detectors and occupancy
 sensors recorded.
